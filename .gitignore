@@ -1,0 +1,167 @@
+###############################################################################
+# Frontend GitIgnore Template
+# Author: cuthanhcam
+# Description: Ignore rules for frontend projects (React, Angular, Vue, Svelte,
+#              Next.js, Nuxt, Vite, Webpack, and modern frontend tooling)
+###############################################################################
+
+# ---------------------------------------------------------------------------
+# Dependency Directories
+# ---------------------------------------------------------------------------
+
+node_modules/
+jspm_packages/
+
+# pnpm
+.pnpm-store/
+
+# ---------------------------------------------------------------------------
+# Package Manager Lock Files (optional)
+# Uncomment if you do NOT want to commit lock files
+# ---------------------------------------------------------------------------
+
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ---------------------------------------------------------------------------
+# Build & Distribution Output
+# ---------------------------------------------------------------------------
+
+dist/
+build/
+out/
+public/build/
+coverage/
+
+# Framework / Bundler specific
+.next/
+.nuxt/
+.svelte-kit/
+.angular/
+.vite/
+.parcel-cache/
+.cache/
+.esbuild/
+
+# ---------------------------------------------------------------------------
+# Test & Coverage Reports
+# ---------------------------------------------------------------------------
+
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+cypress/videos/
+cypress/screenshots/
+
+# ---------------------------------------------------------------------------
+# Logs
+# ---------------------------------------------------------------------------
+
+logs/
+log/
+Logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------------------------------------------------------------------------
+# Environment Variables & Secrets (DO NOT COMMIT)
+# ---------------------------------------------------------------------------
+
+.env
+.env.*
+!.env.example
+
+secrets/
+*.secret
+*.key
+*.pem
+*.crt
+*.pfx
+
+# ---------------------------------------------------------------------------
+# Temporary Files & Caches
+# ---------------------------------------------------------------------------
+
+.tmp/
+.temp/
+*.tmp
+*.swp
+*~
+
+# TypeScript
+*.tsbuildinfo
+
+# Linting / Formatting / Tooling caches
+.eslintcache
+.stylelintcache
+.prettiercache
+
+# ---------------------------------------------------------------------------
+# IDE & Editor Files
+# ---------------------------------------------------------------------------
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ---------------------------------------------------------------------------
+# OS Generated Files
+# ---------------------------------------------------------------------------
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------------------------------------------------------------------------
+# Docker & DevOps
+# ---------------------------------------------------------------------------
+
+docker-compose.override.yml
+Dockerfile.local
+.docker/
+*.dockerignore
+
+# ---------------------------------------------------------------------------
+# Cloud / Hosting Providers
+# ---------------------------------------------------------------------------
+
+.vercel/
+.netlify/
+.firebase/
+.serverless/
+
+# ---------------------------------------------------------------------------
+# Monorepo & Workspace Tools
+# ---------------------------------------------------------------------------
+
+.turbo/
+.nx/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# ---------------------------------------------------------------------------
+# Miscellaneous
+# ---------------------------------------------------------------------------
+
+*.retry
+*.bak
+*.cache
