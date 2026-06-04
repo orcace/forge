@@ -85,3 +85,7 @@ carry most behavior coverage.
 - Use `@/` for imports from `src`.
 - Do not import from another feature module.
 - Keep `src/shared` independent from app, core, widgets, and features.
+
+## Implementation Note 3
+
+Milestone 3 keeps Forge aligned with the registry-first architecture and white-first interface direction.
