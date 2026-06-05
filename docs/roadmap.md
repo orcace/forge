@@ -120,3 +120,7 @@ Requirements:
 - Account system
 - Cloud sync by default
 - Replacing a full IDE
+
+## Implementation Note 5
+
+Milestone 5 keeps Forge aligned with the registry-first architecture and white-first interface direction.
