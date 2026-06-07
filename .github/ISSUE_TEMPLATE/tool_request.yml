@@ -1,0 +1,47 @@
+name: Tool request
+description: Propose a new developer tool for Forge.
+title: "tool: "
+labels: ["tool request", "needs triage"]
+body:
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      placeholder: "JSON Formatter"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Workspace
+        - Editors
+        - Data
+        - Encoding
+        - Crypto
+        - Utilities
+    validations:
+      required: true
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+      description: What problem does this tool solve, and when would a developer use it?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected behavior
+      description: Describe inputs, outputs, validation, persistence, and copy/export actions.
+    validations:
+      required: true
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Fit checklist
+      options:
+        - label: The tool can run entirely in the browser.
+        - label: The tool can be isolated inside `src/features`.
+        - label: The tool can be registered through the Tool Registry.

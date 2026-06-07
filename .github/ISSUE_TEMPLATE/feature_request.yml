@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an improvement to the Forge platform or existing tools.
+title: "feat: "
+labels: ["enhancement", "needs triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What workflow or user need should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the change, expected behavior, and relevant UX details.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional context about tradeoffs or rejected approaches.
+    validations:
+      required: false
+  - type: checkboxes
+    id: architecture
+    attributes:
+      label: Architecture fit
+      options:
+        - label: This can work with the registry-driven architecture.
+        - label: This does not require backend storage for core functionality.

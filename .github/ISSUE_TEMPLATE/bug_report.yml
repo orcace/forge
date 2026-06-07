@@ -1,0 +1,46 @@
+name: Bug report
+description: Report a reproducible problem in Forge.
+title: "fix: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Forge. Please include enough detail for maintainers to reproduce the issue.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and the behavior you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Open ...
+        2. Paste ...
+        3. Click ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, OS, Node.js version, pnpm version, and Forge commit if relevant.
+      placeholder: |
+        Browser:
+        OS:
+        Node:
+        pnpm:
+        Commit:
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs or screenshots
+      description: Add console output, stack traces, screenshots, or screen recordings.
+    validations:
+      required: false
