@@ -82,4 +82,4 @@ request. New tools should follow [docs/adding-a-new-tool.md](docs/adding-a-new-t
 
 ## License
 
-MIT
+MIT License
