@@ -16,19 +16,20 @@ jspm_packages/
 .pnpm-store/
 
 # ---------------------------------------------------------------------------
-# Package Manager Lock Files (optional)
-# Uncomment if you do NOT want to commit lock files
+# Package Manager Lock Files
 # ---------------------------------------------------------------------------
 
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
+# Forge is an application, so pnpm-lock.yaml should be committed for
+# reproducible installs in local development and CI.
+package-lock.json
+yarn.lock
 
 # ---------------------------------------------------------------------------
 # Build & Distribution Output
 # ---------------------------------------------------------------------------
 
 dist/
+dist-ssr/
 build/
 out/
 public/build/
@@ -40,9 +41,11 @@ coverage/
 .svelte-kit/
 .angular/
 .vite/
+.vite-inspect/
 .parcel-cache/
 .cache/
 .esbuild/
+storybook-static/
 
 # ---------------------------------------------------------------------------
 # Test & Coverage Reports
@@ -100,6 +103,7 @@ secrets/
 .eslintcache
 .stylelintcache
 .prettiercache
+.vitest/
 
 # ---------------------------------------------------------------------------
 # IDE & Editor Files
@@ -165,3 +169,10 @@ Dockerfile.local
 *.retry
 *.bak
 *.cache
+
+# ---------------------------------------------------------------------------
+# Workspace Local Folders
+# ---------------------------------------------------------------------------
+
+temp/
+ref/
