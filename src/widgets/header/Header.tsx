@@ -2,7 +2,11 @@ import type { JSX } from "react";
 import { Menu } from "lucide-react";
 import { HeaderActions } from "./HeaderActions";
 
-export function Header(): JSX.Element {
+interface HeaderProps {
+  onOpenCommandPalette: () => void;
+}
+
+export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur md:px-6">
       <div className="flex items-center gap-3">
@@ -20,7 +24,7 @@ export function Header(): JSX.Element {
           </p>
         </div>
       </div>
-      <HeaderActions />
+      <HeaderActions onOpenCommandPalette={onOpenCommandPalette} />
     </header>
   );
 }

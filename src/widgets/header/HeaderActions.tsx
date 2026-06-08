@@ -1,18 +1,24 @@
 import type { JSX } from "react";
 import { Github, Search } from "lucide-react";
+import { shortcuts } from "@/core/shortcuts/shortcuts";
 import { Button } from "@/shared/ui/button";
 
-export function HeaderActions(): JSX.Element {
+interface HeaderActionsProps {
+  onOpenCommandPalette: () => void;
+}
+
+export function HeaderActions({ onOpenCommandPalette }: HeaderActionsProps): JSX.Element {
   return (
     <div className="flex items-center gap-2">
       <Button
         className="hidden min-w-52 justify-start text-slate-500 md:inline-flex"
+        onClick={onOpenCommandPalette}
         size="sm"
       >
         <Search aria-hidden="true" className="h-4 w-4" />
         Search tools
         <kbd className="ml-auto rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[10px] text-slate-500">
-          Ctrl K
+          {shortcuts.commandPalette.label}
         </kbd>
       </Button>
       <a
