@@ -22,10 +22,7 @@ export function SidebarGroup({
 
   if (sidebarCollapsed) {
     return (
-      <section className="space-y-1 pb-2">
-        <div className="flex h-7 items-center justify-center text-slate-300">
-          <Icon aria-hidden="true" className="h-4 w-4" />
-        </div>
+      <section className="space-y-1">
         <div className="space-y-1">
           {tools.map((tool) => (
             <SidebarToolItem collapsed key={tool.id} tool={tool} />

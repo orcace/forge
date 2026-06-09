@@ -82,7 +82,7 @@ export function Sidebar(): JSX.Element {
           sidebarCollapsed ? "px-2" : "px-2.5",
         )}
       >
-        <div className={cn(sidebarCollapsed ? "space-y-3" : "space-y-4")}>
+        <div className={cn(sidebarCollapsed ? "space-y-2" : "space-y-4")}>
           {toolCategoryDefinitions.map((category) => {
             const tools = getToolsByCategory(category.id);
 
