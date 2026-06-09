@@ -1,5 +1,6 @@
 import type { JSX } from "react";
-import { Menu } from "lucide-react";
+import { Box, Menu } from "lucide-react";
+import { Link } from "react-router";
 import { HeaderActions } from "./HeaderActions";
 
 interface HeaderProps {
@@ -17,7 +18,14 @@ export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
         >
           <Menu aria-hidden="true" className="h-5 w-5" />
         </button>
-        <div>
+        <Link
+          aria-label="Go to home"
+          className="hidden h-9 w-9 items-center justify-center rounded-md bg-gradient-brand text-white shadow-sm shadow-sky-500/20 transition hover:opacity-95 sm:inline-flex"
+          to="/"
+        >
+          <Box aria-hidden="true" className="h-5 w-5" />
+        </Link>
+        <div className="min-w-0">
           <p className="text-sm font-semibold text-slate-950">Forge</p>
           <p className="hidden text-xs text-slate-500 sm:block">
             Local-first tools for developer workflows

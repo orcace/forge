@@ -79,3 +79,29 @@ body {
   background-clip: text;
   color: transparent;
 }
+
+.scrollbar-forge {
+  scrollbar-color: rgb(148 163 184 / 0.65) transparent;
+  scrollbar-width: thin;
+}
+
+.scrollbar-forge::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar-forge::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-forge::-webkit-scrollbar-thumb {
+  background: rgb(148 163 184 / 0.45);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+.scrollbar-forge::-webkit-scrollbar-thumb:hover {
+  background: rgb(100 116 139 / 0.7);
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
