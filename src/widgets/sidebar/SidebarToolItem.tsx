@@ -1,7 +1,6 @@
 import type { JSX } from "react";
 import { NavLink } from "react-router";
 import type { ToolDefinition } from "@/core/registry/tool.definition";
-import { Badge } from "@/shared/ui/badge";
 import { cn } from "@/shared/lib/cn";
 
 interface SidebarToolItemProps {
@@ -33,11 +32,6 @@ export function SidebarToolItem({
       <span className={cn("min-w-0 flex-1 truncate", collapsed && "sr-only")}>
         {tool.name}
       </span>
-      {tool.status === "planned" && !collapsed ? (
-        <Badge className="h-4 px-1.5 text-[10px]" tone="neutral">
-          Soon
-        </Badge>
-      ) : null}
     </NavLink>
   );
 }
