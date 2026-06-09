@@ -21,7 +21,7 @@ export function SidebarToolItem({
         cn("group flex items-center rounded-md text-[13px] font-medium transition", {
           "h-8 justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200":
             collapsed && !isActive,
-          "h-8 justify-center bg-sky-50 text-sky-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200":
+          "h-8 justify-center text-sky-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200":
             collapsed && isActive,
           "min-h-8 gap-2 px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 hover:text-slate-950":
             !collapsed && !isActive,
