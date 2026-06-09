@@ -88,3 +88,8 @@ MIT License
 
 Forge is developed in small milestones so shell, registry, and tool modules can
 be reviewed independently.
+
+## Development History
+
+Forge is developed in small milestones so shell, registry, and tool modules can
+be reviewed independently.

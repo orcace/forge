@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { hasMarkdownPreviewInput, normalizeMarkdownPreviewInput } from "./markdown-preview.service";
+import {
+  hasMarkdownPreviewInput,
+  normalizeMarkdownPreviewInput,
+} from "./markdown-preview.service";
 
 describe("markdown-preview service", () => {
   it("normalizes user input", () => {

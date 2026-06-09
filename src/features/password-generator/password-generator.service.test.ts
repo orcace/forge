@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { hasPasswordGeneratorInput, normalizePasswordGeneratorInput } from "./password-generator.service";
+import {
+  hasPasswordGeneratorInput,
+  normalizePasswordGeneratorInput,
+} from "./password-generator.service";
 
 describe("password-generator service", () => {
   it("normalizes user input", () => {

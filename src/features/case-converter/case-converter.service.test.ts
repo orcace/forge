@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { hasCaseConverterInput, normalizeCaseConverterInput } from "./case-converter.service";
+import {
+  hasCaseConverterInput,
+  normalizeCaseConverterInput,
+} from "./case-converter.service";
 
 describe("case-converter service", () => {
   it("normalizes user input", () => {

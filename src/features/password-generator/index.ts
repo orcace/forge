@@ -4,4 +4,7 @@ export {
   normalizePasswordGeneratorInput,
   type PasswordGeneratorInput,
 } from "./password-generator.service";
-export { PasswordGeneratorSchema, type PasswordGeneratorForm } from "./password-generator.schema";
+export {
+  PasswordGeneratorSchema,
+  type PasswordGeneratorForm,
+} from "./password-generator.schema";
