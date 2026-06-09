@@ -22,9 +22,9 @@ export function SidebarGroup({
 
   if (sidebarCollapsed) {
     return (
-      <section className="space-y-1">
+      <section className="space-y-1 border-b border-slate-100 pb-2 last:border-b-0">
         <div
-          className="flex h-8 items-center justify-center text-slate-400"
+          className="flex h-7 items-center justify-center text-slate-300"
           title={category.id}
         >
           <Icon aria-hidden="true" className="h-4 w-4" />
@@ -39,14 +39,14 @@ export function SidebarGroup({
   }
 
   return (
-    <section className="space-y-2">
+    <section className="space-y-1.5">
       <button
         aria-expanded={open}
-        className="flex h-8 w-full items-center gap-2 rounded-md px-3 text-xs font-semibold uppercase text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+        className="flex h-7 w-full items-center gap-2 rounded-md px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
         onClick={() => setOpen((value) => !value)}
         type="button"
       >
-        <Icon aria-hidden="true" className="h-3.5 w-3.5" />
+        <Icon aria-hidden="true" className="h-3.5 w-3.5 text-slate-300" />
         <span className="min-w-0 flex-1 text-left">{category.id}</span>
         <ChevronDown
           aria-hidden="true"
@@ -54,7 +54,7 @@ export function SidebarGroup({
         />
       </button>
       {open ? (
-        <div className="space-y-1">
+        <div className="ml-3 space-y-0.5 border-l border-slate-200 pl-2">
           {tools.map((tool) => (
             <SidebarToolItem key={tool.id} tool={tool} />
           ))}

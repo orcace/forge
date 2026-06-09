@@ -19,10 +19,10 @@ export function SidebarToolItem({
     <NavLink
       className={({ isActive }) =>
         cn(
-          "group flex min-h-10 items-center rounded-md py-2 text-sm transition",
-          collapsed ? "justify-center px-0" : "gap-3 px-3",
+          "group flex min-h-8 items-center rounded-md py-1.5 text-[13px] font-medium transition",
+          collapsed ? "justify-center px-0" : "gap-2 px-2.5",
           isActive
-            ? "bg-sky-50 text-sky-800 ring-1 ring-sky-100"
+            ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
             : "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
         )
       }
@@ -34,7 +34,7 @@ export function SidebarToolItem({
         {tool.name}
       </span>
       {tool.status === "planned" && !collapsed ? (
-        <Badge className="h-5 px-1.5 text-[10px]" tone="neutral">
+        <Badge className="h-4 px-1.5 text-[10px]" tone="neutral">
           Soon
         </Badge>
       ) : null}
