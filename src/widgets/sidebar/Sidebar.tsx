@@ -20,6 +20,7 @@ import { toolCategoryDefinitions } from "@/core/registry/tool.categories";
 import { getToolsByCategory } from "@/core/registry/tool.registry";
 import { useWorkspaceStore } from "@/core/workspace/workspace.store";
 import { cn } from "@/shared/lib/cn";
+import { Tooltip } from "@/shared/ui/tooltip";
 import { SidebarGroup } from "./SidebarGroup";
 
 export function Sidebar(): JSX.Element {
@@ -145,45 +146,51 @@ export function Sidebar(): JSX.Element {
             sidebarCollapsed ? "flex-col" : "items-center justify-between",
           )}
         >
-          <NavLink
-            aria-label="Settings"
-            className={({ isActive }) =>
-              cn(
-                "flex h-9 w-9 items-center justify-center rounded-md transition",
-                isActive
+          <Tooltip content="Settings" side="top">
+            <NavLink
+              aria-label="Settings"
+              className={({ isActive }) =>
+                cn(
+                  "flex h-9 w-9 items-center justify-center rounded-md transition",
+                  isActive
+                    ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
+                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-950",
+                )
+              }
+              to="/settings"
+            >
+              <Settings aria-hidden="true" className="h-4 w-4 shrink-0" />
+            </NavLink>
+          </Tooltip>
+          <Tooltip content="Help" side="top">
+            <button
+              aria-expanded={helpOpen}
+              aria-label="Help"
+              className={cn(
+                "flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition",
+                helpOpen
                   ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
                   : "text-slate-500 hover:bg-slate-100 hover:text-slate-950",
-              )
-            }
-            title="Settings"
-            to="/settings"
+              )}
+              onClick={() => setHelpOpen((value) => !value)}
+              type="button"
+            >
+              <HelpCircle aria-hidden="true" className="h-4 w-4" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            content={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            side="top"
           >
-            <Settings aria-hidden="true" className="h-4 w-4 shrink-0" />
-          </NavLink>
-          <button
-            aria-expanded={helpOpen}
-            aria-label="Help"
-            className={cn(
-              "flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition",
-              helpOpen
-                ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
-                : "text-slate-500 hover:bg-slate-100 hover:text-slate-950",
-            )}
-            onClick={() => setHelpOpen((value) => !value)}
-            title="Help"
-            type="button"
-          >
-            <HelpCircle aria-hidden="true" className="h-4 w-4" />
-          </button>
-          <button
-            aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950"
-            onClick={toggleSidebar}
-            title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            type="button"
-          >
-            <ToggleIcon aria-hidden="true" className="h-4 w-4" />
-          </button>
+            <button
+              aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950"
+              onClick={toggleSidebar}
+              type="button"
+            >
+              <ToggleIcon aria-hidden="true" className="h-4 w-4" />
+            </button>
+          </Tooltip>
         </div>
       </div>
     </aside>

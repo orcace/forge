@@ -2,6 +2,7 @@ import type { JSX } from "react";
 import { NavLink } from "react-router";
 import type { ToolDefinition } from "@/core/registry/tool.definition";
 import { cn } from "@/shared/lib/cn";
+import { Tooltip } from "@/shared/ui/tooltip";
 
 interface SidebarToolItemProps {
   collapsed?: boolean;
@@ -14,7 +15,7 @@ export function SidebarToolItem({
 }: SidebarToolItemProps): JSX.Element {
   const Icon = tool.icon;
 
-  return (
+  const item = (
     <NavLink
       className={({ isActive }) =>
         cn(
@@ -25,7 +26,6 @@ export function SidebarToolItem({
             : "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
         )
       }
-      title={collapsed ? tool.name : undefined}
       to={tool.route}
     >
       <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
@@ -34,4 +34,10 @@ export function SidebarToolItem({
       </span>
     </NavLink>
   );
+
+  if (!collapsed) {
+    return item;
+  }
+
+  return <Tooltip content={tool.name}>{item}</Tooltip>;
 }
