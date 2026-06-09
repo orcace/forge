@@ -2,7 +2,6 @@ import type { JSX } from "react";
 import { NavLink } from "react-router";
 import type { ToolDefinition } from "@/core/registry/tool.definition";
 import { cn } from "@/shared/lib/cn";
-import { Tooltip } from "@/shared/ui/tooltip";
 
 interface SidebarToolItemProps {
   collapsed?: boolean;
@@ -15,7 +14,7 @@ export function SidebarToolItem({
 }: SidebarToolItemProps): JSX.Element {
   const Icon = tool.icon;
 
-  const item = (
+  return (
     <NavLink
       className={({ isActive }) =>
         cn("group flex items-center text-[13px] font-medium transition", {
@@ -37,10 +36,4 @@ export function SidebarToolItem({
       </span>
     </NavLink>
   );
-
-  if (!collapsed) {
-    return item;
-  }
-
-  return <Tooltip content={tool.name}>{item}</Tooltip>;
 }

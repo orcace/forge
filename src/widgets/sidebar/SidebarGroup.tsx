@@ -4,7 +4,6 @@ import { ChevronDown } from "lucide-react";
 import type { ToolCategoryDefinition } from "@/core/registry/tool.categories";
 import type { ToolDefinition } from "@/core/registry/tool.definition";
 import { cn } from "@/shared/lib/cn";
-import { Tooltip } from "@/shared/ui/tooltip";
 import { SidebarToolItem } from "./SidebarToolItem";
 
 interface SidebarGroupProps {
@@ -24,11 +23,9 @@ export function SidebarGroup({
   if (sidebarCollapsed) {
     return (
       <section className="space-y-1 pb-2">
-        <Tooltip content={category.id}>
-          <div className="flex h-7 items-center justify-center text-slate-300">
-            <Icon aria-hidden="true" className="h-4 w-4" />
-          </div>
-        </Tooltip>
+        <div className="flex h-7 items-center justify-center text-slate-300">
+          <Icon aria-hidden="true" className="h-4 w-4" />
+        </div>
         <div className="space-y-1">
           {tools.map((tool) => (
             <SidebarToolItem collapsed key={tool.id} tool={tool} />
