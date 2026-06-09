@@ -33,7 +33,7 @@ export function ToolPlaceholderPage(): JSX.Element {
 
   if (tool.id === "markdown-preview") {
     return (
-      <ToolLayout tool={tool}>
+      <ToolLayout showHeader={false} tool={tool}>
         <MarkdownPreviewPage />
       </ToolLayout>
     );

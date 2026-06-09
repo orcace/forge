@@ -154,7 +154,7 @@ ${renderedHtml}
   }
 
   return (
-    <section className="flex min-h-[calc(100vh-11rem)] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]">
+    <section className="flex min-h-[calc(100vh-6.5rem)] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]">
       <div className="flex min-h-11 items-center gap-1 border-b border-slate-100 px-2">
         <div className="scrollbar-forge flex min-w-0 flex-1 items-center gap-1 overflow-x-auto">
           {state.tabs.map((tab) => (

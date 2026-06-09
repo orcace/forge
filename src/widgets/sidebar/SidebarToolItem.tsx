@@ -18,13 +18,16 @@ export function SidebarToolItem({
   const item = (
     <NavLink
       className={({ isActive }) =>
-        cn(
-          "group flex min-h-8 items-center rounded-md py-1.5 text-[13px] font-medium transition",
-          collapsed ? "justify-center px-0" : "gap-2 px-2.5",
-          isActive
-            ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
-            : "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
-        )
+        cn("group flex items-center rounded-md text-[13px] font-medium transition", {
+          "h-8 justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200":
+            collapsed && !isActive,
+          "h-8 justify-center bg-sky-50 text-sky-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200":
+            collapsed && isActive,
+          "min-h-8 gap-2 px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 hover:text-slate-950":
+            !collapsed && !isActive,
+          "min-h-8 gap-2 bg-sky-50 px-2.5 py-1.5 text-sky-700 ring-1 ring-sky-100":
+            !collapsed && isActive,
+        })
       }
       to={tool.route}
     >

@@ -10,7 +10,8 @@ interface HeaderProps {
 
 export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
   const location = useLocation();
-  const title = getHeaderTitle(location.pathname);
+  const headerMeta = getHeaderMeta(location.pathname);
+  const HeaderIcon = headerMeta.icon;
 
   return (
     <header className="sticky top-0 z-20 flex h-14 items-center justify-between bg-white/90 px-4 backdrop-blur md:px-5">
@@ -22,8 +23,13 @@ export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
         >
           <Menu aria-hidden="true" className="h-5 w-5" />
         </button>
-        <div className="min-w-0">
-          <h1 className="truncate text-[15px] font-semibold text-slate-950">{title}</h1>
+        <div className="flex min-w-0 items-center gap-2">
+          {HeaderIcon ? (
+            <HeaderIcon aria-hidden="true" className="h-4 w-4 shrink-0 text-sky-600" />
+          ) : null}
+          <h1 className="truncate text-[15px] font-semibold text-slate-950">
+            {headerMeta.title}
+          </h1>
         </div>
       </div>
       <HeaderActions onOpenCommandPalette={onOpenCommandPalette} />
@@ -31,21 +37,24 @@ export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
   );
 }
 
-function getHeaderTitle(pathname: string): string {
+function getHeaderMeta(pathname: string): {
+  icon?: NonNullable<ReturnType<typeof getToolById>>["icon"];
+  title: string;
+} {
   if (pathname === "/") {
-    return "Home";
+    return { title: "Home" };
   }
 
   if (pathname === "/settings") {
-    return "Settings";
+    return { title: "Settings" };
   }
 
   if (pathname === "/docs") {
-    return "Documentation";
+    return { title: "Documentation" };
   }
 
   const toolId = pathname.match(/^\/tools\/([^/]+)$/)?.[1];
   const tool = toolId ? getToolById(toolId) : undefined;
 
-  return tool?.name ?? "Forge";
+  return tool ? { icon: tool.icon, title: tool.name } : { title: "Forge" };
 }
