@@ -1,5 +1,7 @@
 import type { JSX } from "react";
 import { Menu } from "lucide-react";
+import { useLocation } from "react-router";
+import { getToolById } from "@/core/registry/tool.registry";
 import { HeaderActions } from "./HeaderActions";
 
 interface HeaderProps {
@@ -7,8 +9,12 @@ interface HeaderProps {
 }
 
 export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
+  const location = useLocation();
+  const headerMeta = getHeaderMeta(location.pathname);
+  const HeaderIcon = headerMeta.icon;
+
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/90 px-4 backdrop-blur md:px-6">
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between bg-white/90 px-4 backdrop-blur md:px-5">
       <div className="flex items-center gap-3">
         <button
           aria-label="Open navigation"
@@ -17,14 +23,38 @@ export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
         >
           <Menu aria-hidden="true" className="h-5 w-5" />
         </button>
-        <div>
-          <p className="text-sm font-semibold text-slate-950">Forge</p>
-          <p className="hidden text-xs text-slate-500 sm:block">
-            Local-first tools for developer workflows
-          </p>
+        <div className="flex min-w-0 items-center gap-2">
+          {HeaderIcon ? (
+            <HeaderIcon aria-hidden="true" className="h-4 w-4 shrink-0 text-sky-600" />
+          ) : null}
+          <h1 className="truncate text-[15px] font-semibold text-slate-950">
+            {headerMeta.title}
+          </h1>
         </div>
       </div>
       <HeaderActions onOpenCommandPalette={onOpenCommandPalette} />
     </header>
   );
+}
+
+function getHeaderMeta(pathname: string): {
+  icon?: NonNullable<ReturnType<typeof getToolById>>["icon"];
+  title: string;
+} {
+  if (pathname === "/") {
+    return { title: "Home" };
+  }
+
+  if (pathname === "/settings") {
+    return { title: "Settings" };
+  }
+
+  if (pathname === "/docs") {
+    return { title: "Documentation" };
+  }
+
+  const toolId = pathname.match(/^\/tools\/([^/]+)$/)?.[1];
+  const tool = toolId ? getToolById(toolId) : undefined;
+
+  return tool ? { icon: tool.icon, title: tool.name } : { title: "Forge" };
 }

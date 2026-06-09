@@ -5,3 +5,11 @@ export const HtmlPreviewSchema = z.object({
 });
 
 export type HtmlPreviewForm = z.infer<typeof HtmlPreviewSchema>;
+
+export const HtmlPreviewStateSchema = z.object({
+  autoUpdate: z.boolean(),
+  html: z.string(),
+  previewHtml: z.string(),
+});
+
+export type HtmlPreviewState = z.infer<typeof HtmlPreviewStateSchema>;

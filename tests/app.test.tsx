@@ -12,7 +12,7 @@ describe("App", () => {
         name: "Developer tools that behave like one product",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "JSON Formatter Soon" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "JSON Formatter" })).toBeInTheDocument();
   });
 
   it("opens the command palette with the keyboard shortcut", async () => {

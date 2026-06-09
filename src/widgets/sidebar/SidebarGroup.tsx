@@ -1,26 +1,65 @@
 import type { JSX } from "react";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import type { ToolCategoryDefinition } from "@/core/registry/tool.categories";
 import type { ToolDefinition } from "@/core/registry/tool.definition";
+import { cn } from "@/shared/lib/cn";
 import { SidebarToolItem } from "./SidebarToolItem";
 
 interface SidebarGroupProps {
   category: ToolCategoryDefinition;
+  sidebarCollapsed?: boolean;
   tools: ToolDefinition[];
 }
 
-export function SidebarGroup({ category, tools }: SidebarGroupProps): JSX.Element {
+export function SidebarGroup({
+  category,
+  sidebarCollapsed = false,
+  tools,
+}: SidebarGroupProps): JSX.Element {
+  const [open, setOpen] = useState(true);
   const Icon = category.icon;
 
+  if (sidebarCollapsed) {
+    return (
+      <section className="space-y-1">
+        <div className="space-y-1">
+          {tools.map((tool) => (
+            <SidebarToolItem collapsed key={tool.id} tool={tool} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="space-y-2">
-      <div className="flex items-center gap-2 px-3 text-xs font-semibold uppercase text-slate-400">
-        <Icon aria-hidden="true" className="h-3.5 w-3.5" />
-        <span>{category.id}</span>
-      </div>
-      <div className="space-y-1">
-        {tools.map((tool) => (
-          <SidebarToolItem key={tool.id} tool={tool} />
-        ))}
+    <section className="space-y-1.5">
+      <button
+        aria-expanded={open}
+        className="flex h-7 w-full items-center gap-2 rounded-md px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+        onClick={() => setOpen((value) => !value)}
+        type="button"
+      >
+        <Icon aria-hidden="true" className="h-3.5 w-3.5 text-slate-300" />
+        <span className="min-w-0 flex-1 text-left">{category.id}</span>
+        <ChevronDown
+          aria-hidden="true"
+          className={cn("h-3.5 w-3.5 transition", !open && "-rotate-90")}
+        />
+      </button>
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-200 ease-out",
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+        )}
+      >
+        <div className="overflow-hidden">
+          <div className="ml-3 space-y-0.5 border-l border-slate-200 pl-2">
+            {tools.map((tool) => (
+              <SidebarToolItem key={tool.id} tool={tool} />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

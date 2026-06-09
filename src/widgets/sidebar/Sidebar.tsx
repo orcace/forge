@@ -1,56 +1,88 @@
 import type { JSX } from "react";
-import { NavLink } from "react-router";
-import { Box, FileText, Home, Settings } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink } from "react-router";
+import {
+  AlertTriangle,
+  BookOpen,
+  GraduationCap,
+  HeartHandshake,
+  Keyboard,
+  MessageCircle,
+  Newspaper,
+  HelpCircle,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Route,
+  Settings,
+  type LucideIcon,
+} from "lucide-react";
 import { toolCategoryDefinitions } from "@/core/registry/tool.categories";
 import { getToolsByCategory } from "@/core/registry/tool.registry";
+import { useWorkspaceStore } from "@/core/workspace/workspace.store";
 import { cn } from "@/shared/lib/cn";
 import { SidebarGroup } from "./SidebarGroup";
 
-const primaryLinks = [
-  { icon: Home, label: "Home", to: "/" },
-  { icon: FileText, label: "Docs", to: "/docs" },
-  { icon: Settings, label: "Settings", to: "/settings" },
-];
-
 export function Sidebar(): JSX.Element {
+  const [helpOpen, setHelpOpen] = useState(false);
+  const helpRef = useRef<HTMLDivElement>(null);
+  const sidebarCollapsed = useWorkspaceStore((state) => state.sidebarCollapsed);
+  const toggleSidebar = useWorkspaceStore((state) => state.toggleSidebar);
+  const ToggleIcon = sidebarCollapsed ? PanelLeftOpen : PanelLeftClose;
+
+  useEffect(() => {
+    if (!helpOpen) {
+      return;
+    }
+
+    function handlePointerDown(event: PointerEvent): void {
+      if (
+        event.target instanceof Node &&
+        helpRef.current &&
+        !helpRef.current.contains(event.target)
+      ) {
+        setHelpOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [helpOpen]);
+
   return (
-    <aside className="hidden h-screen w-72 shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col">
-      <div className="flex h-16 items-center gap-3 border-b border-slate-200 px-5">
-        <div className="flex h-9 w-9 items-center justify-center rounded-md bg-gradient-brand text-white shadow-sm shadow-sky-500/20">
-          <Box aria-hidden="true" className="h-5 w-5" />
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-slate-950">Forge</p>
-          <p className="text-xs text-slate-500">Developer workstation</p>
+    <aside
+      className={cn(
+        "hidden h-screen shrink-0 bg-white transition-[width] duration-200 lg:flex lg:flex-col",
+        sidebarCollapsed ? "w-14" : "w-64",
+      )}
+    >
+      <div
+        className={cn(
+          "flex h-14 items-center",
+          sidebarCollapsed ? "justify-center px-2" : "gap-2.5 px-3",
+        )}
+      >
+        <Link
+          aria-label="Go to home"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition hover:bg-slate-100"
+          to="/"
+        >
+          <img alt="" className="h-6 w-6 object-contain" src="/favicon.svg" />
+        </Link>
+        <div className={cn(sidebarCollapsed && "sr-only")}>
+          <p className="text-[14px] font-bold leading-5 text-slate-950">Forge</p>
+          <p className="text-[11px] font-medium text-slate-500">Developer Workstation</p>
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <div className="mb-5 space-y-1">
-          {primaryLinks.map((link) => {
-            const Icon = link.icon;
-
-            return (
-              <NavLink
-                className={({ isActive }) =>
-                  cn(
-                    "flex h-10 items-center gap-3 rounded-md px-3 text-sm transition",
-                    isActive
-                      ? "bg-slate-950 text-white"
-                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
-                  )
-                }
-                key={link.to}
-                to={link.to}
-              >
-                <Icon aria-hidden="true" className="h-4 w-4" />
-                <span>{link.label}</span>
-              </NavLink>
-            );
-          })}
-        </div>
-
-        <div className="space-y-6">
+      <nav
+        aria-label="Tool navigation"
+        className={cn(
+          "scrollbar-forge flex-1 overflow-y-auto py-4",
+          sidebarCollapsed ? "px-2" : "px-2.5",
+        )}
+      >
+        <div className={cn(sidebarCollapsed ? "space-y-2" : "space-y-4")}>
           {toolCategoryDefinitions.map((category) => {
             const tools = getToolsByCategory(category.id);
 
@@ -58,10 +90,148 @@ export function Sidebar(): JSX.Element {
               return null;
             }
 
-            return <SidebarGroup category={category} key={category.id} tools={tools} />;
+            return (
+              <SidebarGroup
+                category={category}
+                key={category.id}
+                sidebarCollapsed={sidebarCollapsed}
+                tools={tools}
+              />
+            );
           })}
         </div>
       </nav>
+
+      <div
+        className={cn("relative py-2.5", sidebarCollapsed ? "px-2" : "px-2.5")}
+        ref={helpRef}
+      >
+        {helpOpen ? (
+          <div
+            className={cn(
+              "absolute bottom-14 z-30 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl shadow-slate-950/10",
+              sidebarCollapsed ? "left-2 w-64" : "left-2.5 w-64",
+            )}
+          >
+            <div className="p-2">
+              <p className="px-2 pb-1 text-[11px] font-semibold text-slate-500">
+                Support
+              </p>
+              <HelpMenuItem icon={MessageCircle} label="Ask a question" />
+              <HelpMenuItem icon={AlertTriangle} label="Report an issue" />
+              <HelpMenuItem icon={HeartHandshake} label="Share feedback" />
+            </div>
+            <div className="border-t border-slate-100 p-2">
+              <p className="px-2 pb-1 text-[11px] font-semibold text-slate-500">
+                Documentation
+              </p>
+              <HelpMenuItem
+                icon={BookOpen}
+                label="Product docs"
+                onSelect={() => setHelpOpen(false)}
+                to="/docs"
+              />
+              <HelpMenuItem icon={Route} label="Guides" />
+              <HelpMenuItem icon={GraduationCap} label="Academy" />
+              <HelpMenuItem icon={Newspaper} label="Changelog" />
+              <HelpMenuItem icon={Keyboard} label="Keyboard shortcuts" />
+            </div>
+          </div>
+        ) : null}
+
+        <div
+          className={cn(
+            "flex gap-1",
+            sidebarCollapsed ? "flex-col" : "items-center justify-between",
+          )}
+        >
+          <NavLink
+            aria-label="Settings"
+            className={({ isActive }) =>
+              cn("flex h-9 w-9 items-center justify-center transition", {
+                "text-slate-400 hover:text-slate-950 focus-visible:outline-none":
+                  sidebarCollapsed && !isActive,
+                "text-slate-700 hover:text-slate-950 focus-visible:outline-none":
+                  sidebarCollapsed && isActive,
+                "rounded-md bg-sky-50 text-sky-700 ring-1 ring-sky-100":
+                  !sidebarCollapsed && isActive,
+                "rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-950":
+                  !sidebarCollapsed && !isActive,
+              })
+            }
+            to="/settings"
+          >
+            <Settings aria-hidden="true" className="h-4 w-4 shrink-0" />
+          </NavLink>
+          <button
+            aria-expanded={helpOpen}
+            aria-label="Help"
+            className={cn(
+              "flex h-9 w-9 shrink-0 items-center justify-center transition",
+              {
+                "text-slate-400 hover:text-slate-950 focus-visible:outline-none":
+                  sidebarCollapsed && !helpOpen,
+                "text-slate-700 hover:text-slate-950 focus-visible:outline-none":
+                  sidebarCollapsed && helpOpen,
+                "rounded-md bg-sky-50 text-sky-700 ring-1 ring-sky-100":
+                  !sidebarCollapsed && helpOpen,
+                "rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-950":
+                  !sidebarCollapsed && !helpOpen,
+              },
+            )}
+            onClick={() => setHelpOpen((value) => !value)}
+            type="button"
+          >
+            <HelpCircle aria-hidden="true" className="h-4 w-4" />
+          </button>
+          <button
+            aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            className={cn(
+              "flex h-9 w-9 shrink-0 items-center justify-center transition",
+              sidebarCollapsed
+                ? "text-slate-400 hover:text-slate-950 focus-visible:outline-none"
+                : "rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-950",
+            )}
+            onClick={toggleSidebar}
+            type="button"
+          >
+            <ToggleIcon aria-hidden="true" className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
     </aside>
+  );
+}
+
+interface HelpMenuItemProps {
+  icon: LucideIcon;
+  label: string;
+  onSelect?: () => void;
+  to?: string;
+}
+
+function HelpMenuItem({
+  icon: Icon,
+  label,
+  onSelect,
+  to,
+}: HelpMenuItemProps): JSX.Element {
+  const className =
+    "flex h-8 w-full items-center gap-2 rounded-md px-2 text-left text-[13px] font-semibold text-slate-700 transition hover:bg-sky-50 hover:text-sky-700";
+
+  if (to) {
+    return (
+      <NavLink className={className} onClick={onSelect} to={to}>
+        <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
+        <span>{label}</span>
+      </NavLink>
+    );
+  }
+
+  return (
+    <button className={className} onClick={onSelect} type="button">
+      <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
+      <span>{label}</span>
+    </button>
   );
 }

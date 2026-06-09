@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { getToolById } from "@/core/registry/tool.registry";
 import { useWorkspaceStore } from "@/core/workspace/workspace.store";
+import { HtmlPreviewPage } from "@/features/html-preview";
+import { MarkdownPreviewPage } from "@/features/markdown-preview";
 import { ToolLayout } from "@/layouts/ToolLayout";
 import { EmptyState } from "@/shared/components/EmptyState";
 import { NotFoundPage } from "@/pages/not-found/NotFoundPage";
@@ -27,6 +29,22 @@ export function ToolPlaceholderPage(): JSX.Element {
 
   if (!tool) {
     return <NotFoundPage />;
+  }
+
+  if (tool.id === "markdown-preview") {
+    return (
+      <ToolLayout showHeader={false} tool={tool}>
+        <MarkdownPreviewPage />
+      </ToolLayout>
+    );
+  }
+
+  if (tool.id === "html-preview") {
+    return (
+      <ToolLayout tool={tool}>
+        <HtmlPreviewPage />
+      </ToolLayout>
+    );
   }
 
   return (
