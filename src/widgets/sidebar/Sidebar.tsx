@@ -150,12 +150,16 @@ export function Sidebar(): JSX.Element {
             <NavLink
               aria-label="Settings"
               className={({ isActive }) =>
-                cn(
-                  "flex h-9 w-9 items-center justify-center rounded-md transition",
-                  isActive
-                    ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
-                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-950",
-                )
+                cn("flex h-9 w-9 items-center justify-center transition", {
+                  "text-slate-400 hover:text-slate-950 focus-visible:outline-none":
+                    sidebarCollapsed && !isActive,
+                  "text-slate-700 hover:text-slate-950 focus-visible:outline-none":
+                    sidebarCollapsed && isActive,
+                  "rounded-md bg-sky-50 text-sky-700 ring-1 ring-sky-100":
+                    !sidebarCollapsed && isActive,
+                  "rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-950":
+                    !sidebarCollapsed && !isActive,
+                })
               }
               to="/settings"
             >
@@ -167,10 +171,17 @@ export function Sidebar(): JSX.Element {
               aria-expanded={helpOpen}
               aria-label="Help"
               className={cn(
-                "flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition",
-                helpOpen
-                  ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-950",
+                "flex h-9 w-9 shrink-0 items-center justify-center transition",
+                {
+                  "text-slate-400 hover:text-slate-950 focus-visible:outline-none":
+                    sidebarCollapsed && !helpOpen,
+                  "text-slate-700 hover:text-slate-950 focus-visible:outline-none":
+                    sidebarCollapsed && helpOpen,
+                  "rounded-md bg-sky-50 text-sky-700 ring-1 ring-sky-100":
+                    !sidebarCollapsed && helpOpen,
+                  "rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-950":
+                    !sidebarCollapsed && !helpOpen,
+                },
               )}
               onClick={() => setHelpOpen((value) => !value)}
               type="button"
@@ -184,7 +195,12 @@ export function Sidebar(): JSX.Element {
           >
             <button
               aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950"
+              className={cn(
+                "flex h-9 w-9 shrink-0 items-center justify-center transition",
+                sidebarCollapsed
+                  ? "text-slate-400 hover:text-slate-950 focus-visible:outline-none"
+                  : "rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-950",
+              )}
               onClick={toggleSidebar}
               type="button"
             >
