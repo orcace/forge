@@ -90,3 +90,7 @@ Maintainers review for:
 
 New tools must follow `docs/adding-a-new-tool.md`. Do not add tool-specific
 entries directly to sidebar, search, router, favorites, or recent tools.
+
+## Implementation Note 4
+
+Milestone 4 keeps Forge aligned with the registry-first architecture and white-first interface direction.

@@ -141,3 +141,7 @@ Recommended for:
 - Tests cover service or core behavior
 - `pnpm check` passes
 - `pnpm format:check` passes
+
+## Implementation Note 2
+
+Milestone 2 keeps Forge aligned with the registry-first architecture and white-first interface direction.

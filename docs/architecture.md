@@ -125,3 +125,7 @@ Not required by default:
 - Forge does not require a backend for core functionality.
 - Forge does not aim to become a full IDE.
 - Forge does not store user data externally by default.
+
+## Implementation Note 1
+
+Milestone 1 keeps Forge aligned with the registry-first architecture and white-first interface direction.
