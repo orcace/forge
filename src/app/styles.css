@@ -106,3 +106,114 @@ body {
   border: 3px solid transparent;
   background-clip: padding-box;
 }
+
+.forge-markdown {
+  color: rgb(15 23 42);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.forge-markdown > *:first-child {
+  margin-top: 0;
+}
+
+.forge-markdown > *:last-child {
+  margin-bottom: 0;
+}
+
+.forge-markdown h1,
+.forge-markdown h2,
+.forge-markdown h3 {
+  margin: 1.4em 0 0.55em;
+  color: rgb(2 6 23);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.forge-markdown h1 {
+  font-size: 1.7rem;
+}
+
+.forge-markdown h2 {
+  font-size: 1.3rem;
+}
+
+.forge-markdown h3 {
+  font-size: 1.08rem;
+}
+
+.forge-markdown p,
+.forge-markdown ul,
+.forge-markdown ol,
+.forge-markdown blockquote,
+.forge-markdown pre,
+.forge-markdown table {
+  margin: 0 0 1em;
+}
+
+.forge-markdown ul,
+.forge-markdown ol {
+  padding-left: 1.4rem;
+}
+
+.forge-markdown ul {
+  list-style: disc;
+}
+
+.forge-markdown ol {
+  list-style: decimal;
+}
+
+.forge-markdown a {
+  color: rgb(2 132 199);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.forge-markdown blockquote {
+  border-left: 3px solid rgb(14 165 233 / 0.45);
+  color: rgb(71 85 105);
+  padding-left: 1rem;
+}
+
+.forge-markdown code {
+  border-radius: 0.35rem;
+  background: rgb(241 245 249);
+  padding: 0.12rem 0.28rem;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.forge-markdown pre {
+  overflow: auto;
+  border-radius: 0.5rem;
+  background: rgb(15 23 42);
+  padding: 1rem;
+}
+
+.forge-markdown pre code {
+  background: transparent;
+  color: rgb(226 232 240);
+  padding: 0;
+}
+
+.forge-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  font-size: 13px;
+}
+
+.forge-markdown th,
+.forge-markdown td {
+  border: 1px solid rgb(226 232 240);
+  padding: 0.55rem 0.65rem;
+  text-align: left;
+}
+
+.forge-markdown th {
+  background: rgb(248 250 252);
+  font-weight: 700;
+}

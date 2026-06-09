@@ -7,4 +7,8 @@ export {
 export {
   MarkdownPreviewSchema,
   type MarkdownPreviewForm,
+  MarkdownPreviewStateSchema,
+  MarkdownPreviewTabSchema,
+  type MarkdownPreviewState,
+  type MarkdownPreviewTab,
 } from "./markdown-preview.schema";

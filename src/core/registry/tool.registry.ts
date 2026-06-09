@@ -28,7 +28,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: FileText,
     persist: true,
     route: "/tools/markdown-preview",
-    status: "planned",
+    status: "available",
   },
   {
     id: "html-preview",
