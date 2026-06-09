@@ -39,7 +39,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: FileCode2,
     persist: true,
     route: "/tools/html-preview",
-    status: "planned",
+    status: "available",
   },
   {
     id: "diff-checker",
