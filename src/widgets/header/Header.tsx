@@ -14,7 +14,7 @@ export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
   const HeaderIcon = headerMeta.icon;
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center justify-between bg-white/90 px-4 backdrop-blur md:px-5">
+    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between bg-white/90 px-4 backdrop-blur md:px-5">
       <div className="flex items-center gap-3">
         <button
           aria-label="Open navigation"
