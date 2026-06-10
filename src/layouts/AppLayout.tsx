@@ -13,10 +13,10 @@ export function AppLayout(): JSX.Element {
   useShortcuts({ onCommandPalette: openCommandPalette });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-foreground">
-      <div className="flex min-h-screen">
+    <div className="h-screen overflow-hidden bg-slate-50 text-foreground">
+      <div className="flex h-screen min-h-0">
         <Sidebar />
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <Header onOpenCommandPalette={openCommandPalette} />
           <Outlet />
         </div>
