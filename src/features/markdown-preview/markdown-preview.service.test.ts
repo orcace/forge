@@ -21,7 +21,7 @@ describe("markdown-preview service", () => {
 
     expect(state.tabs).toHaveLength(1);
     expect(state.activeTabId).toBe(state.tabs[0]?.id);
-    expect(state.previewVisible).toBe(true);
+    expect(state.viewMode).toBe("split");
   });
 
   it("renders markdown as sanitized html", () => {
