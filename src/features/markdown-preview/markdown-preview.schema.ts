@@ -13,12 +13,23 @@ export const MarkdownPreviewTabSchema = z.object({
   updatedAt: z.number(),
 });
 
+export const MarkdownPreviewViewModeSchema = z.enum(["editor", "split", "preview"]);
+
 export const MarkdownPreviewStateSchema = z.object({
   activeTabId: z.string(),
-  previewVisible: z.boolean(),
+  previewVisible: z.boolean().optional(),
   syncScroll: z.boolean(),
   tabs: z.array(MarkdownPreviewTabSchema).min(1),
+  tabsCollapsed: z.boolean().optional(),
+  viewMode: MarkdownPreviewViewModeSchema.optional(),
 });
 
 export type MarkdownPreviewTab = z.infer<typeof MarkdownPreviewTabSchema>;
-export type MarkdownPreviewState = z.infer<typeof MarkdownPreviewStateSchema>;
+export type MarkdownPreviewViewMode = z.infer<typeof MarkdownPreviewViewModeSchema>;
+export type MarkdownPreviewState = Omit<
+  z.infer<typeof MarkdownPreviewStateSchema>,
+  "previewVisible" | "viewMode"
+> & {
+  tabsCollapsed: boolean;
+  viewMode: MarkdownPreviewViewMode;
+};
