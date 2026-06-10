@@ -39,10 +39,17 @@
   border-color: hsl(var(--border));
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
   font-size: 13px;
   font-family:
     Inter,
@@ -107,6 +114,14 @@ body {
   background-clip: padding-box;
 }
 
+.markdown-editor {
+  font-family:
+    "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono",
+    Menlo, monospace;
+  font-variant-ligatures: none;
+  tab-size: 2;
+}
+
 .forge-markdown {
   color: rgb(15 23 42);
   font-size: 14px;
@@ -123,7 +138,10 @@ body {
 
 .forge-markdown h1,
 .forge-markdown h2,
-.forge-markdown h3 {
+.forge-markdown h3,
+.forge-markdown h4,
+.forge-markdown h5,
+.forge-markdown h6 {
   margin: 1.4em 0 0.55em;
   color: rgb(2 6 23);
   font-weight: 700;
@@ -142,12 +160,27 @@ body {
   font-size: 1.08rem;
 }
 
+.forge-markdown h4 {
+  font-size: 1rem;
+}
+
+.forge-markdown h5 {
+  font-size: 0.92rem;
+}
+
+.forge-markdown h6 {
+  color: rgb(71 85 105);
+  font-size: 0.84rem;
+  text-transform: uppercase;
+}
+
 .forge-markdown p,
 .forge-markdown ul,
 .forge-markdown ol,
 .forge-markdown blockquote,
 .forge-markdown pre,
-.forge-markdown table {
+.forge-markdown table,
+.forge-markdown .mermaid {
   margin: 0 0 1em;
 }
 
@@ -164,6 +197,15 @@ body {
   list-style: decimal;
 }
 
+.forge-markdown li {
+  margin: 0.2rem 0;
+}
+
+.forge-markdown input[type="checkbox"] {
+  margin-right: 0.45rem;
+  transform: translateY(1px);
+}
+
 .forge-markdown a {
   color: rgb(2 132 199);
   font-weight: 600;
@@ -172,30 +214,43 @@ body {
 }
 
 .forge-markdown blockquote {
-  border-left: 3px solid rgb(14 165 233 / 0.45);
+  border-left: 3px solid rgb(203 213 225);
   color: rgb(71 85 105);
+  background: rgb(248 250 252);
+  border-radius: 0 0.4rem 0.4rem 0;
+  margin-left: 0;
   padding-left: 1rem;
 }
 
 .forge-markdown code {
   border-radius: 0.35rem;
-  background: rgb(241 245 249);
+  background: rgb(248 250 252);
+  border: 1px solid rgb(226 232 240);
   padding: 0.12rem 0.28rem;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-family:
+    "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono",
+    Menlo, monospace;
   font-size: 0.9em;
 }
 
 .forge-markdown pre {
   overflow: auto;
   border-radius: 0.5rem;
-  background: rgb(15 23 42);
+  border: 1px solid rgb(226 232 240);
+  background: rgb(248 250 252);
   padding: 1rem;
 }
 
 .forge-markdown pre code {
   background: transparent;
-  color: rgb(226 232 240);
+  border: 0;
+  color: rgb(30 41 59);
   padding: 0;
+}
+
+.forge-markdown img {
+  max-width: 100%;
+  border-radius: 0.5rem;
 }
 
 .forge-markdown table {
@@ -216,4 +271,99 @@ body {
 .forge-markdown th {
   background: rgb(248 250 252);
   font-weight: 700;
+}
+
+.forge-markdown hr {
+  margin: 1.5rem 0;
+  border: 0;
+  border-top: 1px solid rgb(226 232 240);
+}
+
+.forge-markdown kbd {
+  border: 1px solid rgb(203 213 225);
+  border-bottom-width: 2px;
+  border-radius: 0.35rem;
+  background: rgb(248 250 252);
+  padding: 0.1rem 0.35rem;
+  color: rgb(15 23 42);
+  font-family: inherit;
+  font-size: 0.85em;
+}
+
+.forge-markdown mark {
+  border-radius: 0.25rem;
+  background: rgb(254 240 138);
+  padding: 0.05rem 0.2rem;
+}
+
+.forge-markdown .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.35rem 0;
+}
+
+.forge-markdown .mermaid {
+  overflow-x: auto;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 0.5rem;
+  background: rgb(248 250 252);
+  padding: 1rem;
+  text-align: center;
+}
+
+.forge-markdown .hljs-keyword,
+.forge-markdown .hljs-selector-tag,
+.forge-markdown .hljs-built_in {
+  color: rgb(124 58 237);
+  font-weight: 650;
+}
+
+.forge-markdown .hljs-string,
+.forge-markdown .hljs-title,
+.forge-markdown .hljs-section,
+.forge-markdown .hljs-attribute {
+  color: rgb(4 120 87);
+}
+
+.forge-markdown .hljs-number,
+.forge-markdown .hljs-literal,
+.forge-markdown .hljs-symbol,
+.forge-markdown .hljs-bullet {
+  color: rgb(194 65 12);
+}
+
+.forge-markdown .hljs-comment,
+.forge-markdown .hljs-quote {
+  color: rgb(100 116 139);
+  font-style: italic;
+}
+
+.forge-markdown .hljs-property,
+.forge-markdown .hljs-attr,
+.forge-markdown .hljs-variable,
+.forge-markdown .hljs-template-variable {
+  color: rgb(2 132 199);
+}
+
+.forge-markdown .hljs-punctuation {
+  color: rgb(71 85 105);
+}
+
+.markdown-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+  border-radius: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  color: rgb(51 65 85);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  outline: none;
+  cursor: default;
+}
+
+.markdown-menu-item[data-highlighted] {
+  background: rgb(241 245 249);
+  color: rgb(15 23 42);
 }
