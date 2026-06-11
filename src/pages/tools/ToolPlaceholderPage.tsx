@@ -41,7 +41,7 @@ export function ToolPlaceholderPage(): JSX.Element {
 
   if (tool.id === "html-preview") {
     return (
-      <ToolLayout tool={tool}>
+      <ToolLayout showHeader={false} tool={tool}>
         <HtmlPreviewPage />
       </ToolLayout>
     );
