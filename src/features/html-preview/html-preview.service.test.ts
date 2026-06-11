@@ -31,10 +31,12 @@ describe("html-preview service", () => {
     expect(document).toContain("<h1>Hello</h1>");
   });
 
-  it("keeps full html documents unchanged", () => {
+  it("injects preview chrome into full html documents", () => {
     const document = "<html><body>Ready</body></html>";
+    const previewDocument = createHtmlPreviewDocument(document);
 
-    expect(createHtmlPreviewDocument(document)).toBe(document);
+    expect(previewDocument).toContain("<body>Ready</body>");
+    expect(previewDocument).toContain("data-forge-preview-scrollbar");
   });
 
   it("minifies html whitespace between tags", () => {
@@ -45,5 +47,19 @@ describe("html-preview service", () => {
 
   it("beautifies compact html", () => {
     expect(beautifyHtml("<main><h1>Title</h1></main>")).toContain("  <h1>Title</h1>");
+  });
+
+  it("beautifies html with a custom indent size", () => {
+    expect(beautifyHtml("<main><h1>Title</h1></main>", 4)).toContain(
+      "    <h1>Title</h1>",
+    );
+  });
+
+  it("beautifies script contents", () => {
+    expect(
+      beautifyHtml(
+        "<script>function toggleTheme(){document.body.classList.toggle('dark');}</script>",
+      ),
+    ).toContain("function toggleTheme(){\n  document.body.classList.toggle('dark');");
   });
 });
