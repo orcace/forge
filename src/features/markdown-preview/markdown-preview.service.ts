@@ -12,9 +12,8 @@ import type { MarkdownPreviewState, MarkdownPreviewTab } from "./markdown-previe
 
 interface PersistedMarkdownPreviewState extends Omit<
   MarkdownPreviewState,
-  "lineWrap" | "tabsCollapsed" | "viewMode"
+  "tabsCollapsed" | "viewMode"
 > {
-  lineWrap?: boolean;
   tabsCollapsed?: boolean;
   previewVisible?: boolean;
   viewMode?: MarkdownPreviewState["viewMode"];
@@ -278,7 +277,6 @@ export function normalizeMarkdownPreviewState(
 ): MarkdownPreviewState {
   return {
     activeTabId: input.activeTabId,
-    lineWrap: input.lineWrap ?? true,
     syncScroll: input.syncScroll,
     tabsCollapsed: input.tabsCollapsed ?? false,
     tabs: input.tabs.map((tab) =>
@@ -315,7 +313,6 @@ export function createMarkdownPreviewState(): MarkdownPreviewState {
 
   return {
     activeTabId: tab.id,
-    lineWrap: true,
     syncScroll: true,
     tabs: [tab],
     tabsCollapsed: false,

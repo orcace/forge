@@ -28,7 +28,6 @@ import {
   SplitSquareHorizontal,
   Trash2,
   Upload,
-  WrapText,
   X,
 } from "lucide-react";
 import { usePersistedToolState } from "@/core/storage/use-persisted-tool-state";
@@ -131,7 +130,6 @@ export function MarkdownPreviewPage(): JSX.Element {
 
     if (
       !parsedState.success ||
-      parsedState.data.lineWrap !== state.lineWrap ||
       parsedState.data.viewMode !== state.viewMode ||
       needsWelcomeMigration
     ) {
@@ -148,8 +146,8 @@ export function MarkdownPreviewPage(): JSX.Element {
     }
 
     editor.style.height = "auto";
-    setEditorHeight(Math.max(editor.scrollHeight, editor.clientHeight));
-  }, [activeTab.content, state.lineWrap, useSharedScroll]);
+    setEditorHeight(Math.max(editor.scrollHeight + 24, editor.clientHeight));
+  }, [activeTab.content, useSharedScroll]);
 
   useEffect(() => {
     if (!previewContentRef.current || !showPreview) {
@@ -206,13 +204,6 @@ export function MarkdownPreviewPage(): JSX.Element {
     const { scrollLeft, scrollTop } = event.currentTarget;
 
     setEditorScroll({ left: scrollLeft, top: scrollTop });
-  }
-
-  function toggleLineWrap(): void {
-    updateState({
-      ...state,
-      lineWrap: !state.lineWrap,
-    });
   }
 
   function addTab(): void {
@@ -444,8 +435,10 @@ ${renderedHtml}
     return (
       <label
         className={cn(
-          "relative flex min-h-0 flex-col overflow-hidden bg-white",
-          sharedScroll ? "min-h-full border-b border-slate-100 lg:border-b-0" : "h-full",
+          "relative bg-white",
+          sharedScroll
+            ? "min-h-full border-b border-slate-100 lg:border-b-0"
+            : "flex h-full min-h-0 flex-col overflow-hidden",
         )}
       >
         <span className="sr-only">Markdown input</span>
@@ -469,17 +462,11 @@ ${renderedHtml}
                 </span>
                 <span className="min-w-0 overflow-hidden px-5">
                   <span
-                    className={cn(
-                      "block",
-                      state.lineWrap
-                        ? "min-w-0 whitespace-pre-wrap break-words"
-                        : "w-max whitespace-pre",
-                    )}
+                    className="block w-max whitespace-pre"
                     style={{
-                      transform:
-                        !sharedScroll && !state.lineWrap
-                          ? `translateX(${-editorScroll.left}px)`
-                          : undefined,
+                      transform: !sharedScroll
+                        ? `translateX(${-editorScroll.left}px)`
+                        : undefined,
                     }}
                   >
                     {line.content || " "}
@@ -491,9 +478,10 @@ ${renderedHtml}
         </div>
         <textarea
           className={cn(
-            "markdown-editor scrollbar-forge relative h-full min-h-0 w-full flex-1 resize-none border-0 bg-transparent py-0 pl-[4.5rem] pr-5 text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400",
-            state.lineWrap ? "overflow-auto" : "overflow-auto whitespace-pre",
-            sharedScroll && "min-h-full overflow-hidden",
+            "markdown-editor scrollbar-forge relative w-full resize-none border-0 bg-transparent py-0 pl-[4.5rem] pr-5 text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400",
+            sharedScroll
+              ? "block overflow-hidden whitespace-pre"
+              : "h-full min-h-0 flex-1 overflow-auto whitespace-pre",
           )}
           onChange={handleContentChange}
           onScroll={sharedScroll ? undefined : handleEditorScroll}
@@ -502,7 +490,7 @@ ${renderedHtml}
           spellCheck={false}
           style={{ height: sharedScroll ? editorHeight : undefined }}
           value={activeTab.content}
-          wrap={state.lineWrap ? "soft" : "off"}
+          wrap="off"
         />
       </label>
     );
@@ -573,21 +561,6 @@ ${renderedHtml}
                 Sync
               </Button>
             </Tooltip>
-
-            <button
-              aria-pressed={!state.lineWrap}
-              className={cn(
-                "flex h-8 items-center gap-2 rounded-md px-2.5 text-[12px] font-semibold transition",
-                !state.lineWrap
-                  ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
-              )}
-              onClick={toggleLineWrap}
-              type="button"
-            >
-              <WrapText aria-hidden="true" className="h-4 w-4" />
-              Disable line wrap
-            </button>
 
             <Tooltip content="Open Markdown guide" side="bottom">
               <Button
