@@ -1,7 +1,7 @@
 import "katex/dist/katex.min.css";
 
-import type { ChangeEvent, FormEvent, JSX } from "react";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import type { ChangeEvent, FormEvent, JSX, UIEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import html2canvas from "html2canvas";
@@ -82,7 +82,7 @@ function downloadBlob(blob: Blob, fileName: string): void {
 export function MarkdownPreviewPage(): JSX.Element {
   const [renameTabId, setRenameTabId] = useState<string | null>(null);
   const [renameTitle, setRenameTitle] = useState("");
-  const [editorHeight, setEditorHeight] = useState<number | undefined>();
+  const [editorScrollTop, setEditorScrollTop] = useState(0);
   const [storedState, setState] = usePersistedToolState<MarkdownPreviewState>(
     "markdown-preview",
     createMarkdownPreviewState(),
@@ -95,6 +95,7 @@ export function MarkdownPreviewPage(): JSX.Element {
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const previewScrollRef = useRef<HTMLDivElement>(null);
   const previewContentRef = useRef<HTMLDivElement>(null);
+  const syncingScrollRef = useRef(false);
   const activeTab =
     state.tabs.find((tab) => tab.id === state.activeTabId) ?? state.tabs[0];
   const renderedHtml = useMemo(
@@ -105,12 +106,58 @@ export function MarkdownPreviewPage(): JSX.Element {
     () => estimateMarkdownReadTime(activeTab.content),
     [activeTab.content],
   );
+  const editorLines = useMemo(
+    () =>
+      activeTab.content.split("\n").map((line, index) => ({
+        content: line,
+        number: index + 1,
+      })),
+    [activeTab.content],
+  );
   const showEditor = state.viewMode !== "preview";
   const showPreview = state.viewMode !== "editor";
-  const useSharedScroll = state.syncScroll && showEditor && showPreview;
+  const syncScrollEnabled = state.syncScroll && showEditor && showPreview;
   const activeViewMode =
     viewModes.find((mode) => mode.value === state.viewMode) ?? viewModes[1];
   const ActiveViewIcon = activeViewMode.icon;
+
+  const syncScroll = useCallback((source: HTMLElement, target: HTMLElement): void => {
+    const sourceScrollable = Math.max(0, source.scrollHeight - source.clientHeight);
+    const targetScrollable = Math.max(0, target.scrollHeight - target.clientHeight);
+    const ratio = sourceScrollable <= 0 ? 0 : source.scrollTop / sourceScrollable;
+
+    syncingScrollRef.current = true;
+    target.scrollTop = targetScrollable * ratio;
+    window.requestAnimationFrame(() => {
+      syncingScrollRef.current = false;
+    });
+  }, []);
+
+  const syncPreviewToEditor = useCallback(
+    (editor: HTMLTextAreaElement): void => {
+      const preview = previewScrollRef.current;
+
+      if (!preview) {
+        return;
+      }
+
+      syncScroll(editor, preview);
+    },
+    [syncScroll],
+  );
+
+  const syncEditorToPreview = useCallback(
+    (preview: HTMLDivElement): void => {
+      const editor = editorRef.current;
+
+      if (!editor) {
+        return;
+      }
+
+      syncScroll(preview, editor);
+    },
+    [syncScroll],
+  );
 
   useEffect(() => {
     const needsWelcomeMigration =
@@ -127,18 +174,6 @@ export function MarkdownPreviewPage(): JSX.Element {
       setState(state);
     }
   }, [parsedState, setState, state]);
-
-  useLayoutEffect(() => {
-    const editor = editorRef.current;
-
-    if (!editor || !useSharedScroll) {
-      setEditorHeight(undefined);
-      return;
-    }
-
-    editor.style.height = "auto";
-    setEditorHeight(Math.max(editor.scrollHeight, editor.clientHeight));
-  }, [activeTab.content, useSharedScroll]);
 
   useEffect(() => {
     if (!previewContentRef.current || !showPreview) {
@@ -163,6 +198,10 @@ export function MarkdownPreviewPage(): JSX.Element {
         nodes: previewContentRef.current?.querySelectorAll(".mermaid"),
         suppressErrors: true,
       });
+
+      if (syncScrollEnabled && editorRef.current) {
+        syncPreviewToEditor(editorRef.current);
+      }
     }
 
     void renderMermaid();
@@ -170,7 +209,21 @@ export function MarkdownPreviewPage(): JSX.Element {
     return () => {
       cancelled = true;
     };
-  }, [renderedHtml, showPreview]);
+  }, [renderedHtml, showPreview, syncPreviewToEditor, syncScrollEnabled]);
+
+  useEffect(() => {
+    if (!syncScrollEnabled || !editorRef.current) {
+      return;
+    }
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      if (editorRef.current) {
+        syncPreviewToEditor(editorRef.current);
+      }
+    });
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [renderedHtml, syncPreviewToEditor, syncScrollEnabled]);
 
   function updateState(nextState: MarkdownPreviewState): void {
     setState(nextState);
@@ -189,6 +242,24 @@ export function MarkdownPreviewPage(): JSX.Element {
       content: event.target.value,
       updatedAt: Date.now(),
     });
+
+    if (syncScrollEnabled) {
+      window.requestAnimationFrame(() => syncPreviewToEditor(event.target));
+    }
+  }
+
+  function handleEditorScroll(event: UIEvent<HTMLTextAreaElement>): void {
+    setEditorScrollTop(event.currentTarget.scrollTop);
+
+    if (syncScrollEnabled && !syncingScrollRef.current) {
+      syncPreviewToEditor(event.currentTarget);
+    }
+  }
+
+  function handlePreviewScroll(event: UIEvent<HTMLDivElement>): void {
+    if (syncScrollEnabled && !syncingScrollRef.current) {
+      syncEditorToPreview(event.currentTarget);
+    }
   }
 
   function addTab(): void {
@@ -414,6 +485,54 @@ ${renderedHtml}
     }
 
     pdf.save(`${fileNameFromTitle(activeTab.title)}.pdf`);
+  }
+
+  function renderMarkdownEditor(): JSX.Element {
+    return (
+      <label className="relative flex h-full min-h-0 flex-col overflow-hidden bg-white">
+        <span className="sr-only">Markdown input</span>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+        >
+          <div
+            className="markdown-editor min-h-full min-w-full text-[13px] leading-6"
+            style={{
+              transform: `translateY(${-editorScrollTop}px)`,
+            }}
+          >
+            {editorLines.map((line) => (
+              <div
+                className="grid min-h-6 grid-cols-[3.25rem_minmax(0,1fr)]"
+                key={line.number}
+              >
+                <span className="select-none border-r border-slate-100 bg-slate-50 px-3 text-right text-slate-400">
+                  {line.number}
+                </span>
+                <span className="min-w-0 overflow-hidden px-5">
+                  <span className="block min-w-0 select-none whitespace-pre-wrap break-words text-transparent">
+                    {line.content || " "}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <textarea
+          className={cn(
+            "markdown-editor scrollbar-forge relative w-full resize-none border-0 bg-transparent py-0 pl-[4.5rem] pr-5 text-[13px] leading-6 text-slate-900 caret-slate-950 outline-none placeholder:text-slate-400",
+            "h-full min-h-0 flex-1 overflow-auto",
+          )}
+          onChange={handleContentChange}
+          onScroll={handleEditorScroll}
+          placeholder="# Start writing Markdown..."
+          ref={editorRef}
+          spellCheck={false}
+          value={activeTab.content}
+          wrap="soft"
+        />
+      </label>
+    );
   }
 
   return (
@@ -738,66 +857,28 @@ ${renderedHtml}
             )}
           </aside>
 
-          {useSharedScroll ? (
-            <div className="scrollbar-forge h-full min-h-0 overflow-auto bg-white">
-              <div className="grid min-h-full lg:grid-cols-2">
-                <label className="flex min-h-full flex-col border-b border-slate-100 lg:border-b-0">
-                  <span className="sr-only">Markdown input</span>
-                  <textarea
-                    className="markdown-editor min-h-full w-full resize-none overflow-hidden border-0 bg-white px-5 py-4 text-[13px] leading-6 text-slate-900 outline-none placeholder:text-slate-400"
-                    onChange={handleContentChange}
-                    placeholder="# Start writing Markdown..."
-                    ref={editorRef}
-                    spellCheck={false}
-                    style={{ height: editorHeight }}
-                    value={activeTab.content}
-                  />
-                </label>
+          <div
+            className={cn(
+              "grid h-full min-h-0 flex-1 overflow-hidden",
+              showEditor && showPreview ? "lg:grid-cols-2" : "grid-cols-1",
+            )}
+          >
+            {showEditor ? renderMarkdownEditor() : null}
 
-                <div className="border-t border-slate-100 bg-white lg:border-l lg:border-t-0">
-                  <div
-                    className="forge-markdown min-h-full w-full px-6 py-5 sm:px-8 lg:px-10"
-                    dangerouslySetInnerHTML={{ __html: renderedHtml }}
-                    ref={previewContentRef}
-                  />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div
-              className={cn(
-                "grid h-full min-h-0 flex-1 overflow-hidden",
-                showEditor && showPreview ? "lg:grid-cols-2" : "grid-cols-1",
-              )}
-            >
-              {showEditor ? (
-                <label className="flex h-full min-h-0 flex-col overflow-hidden">
-                  <span className="sr-only">Markdown input</span>
-                  <textarea
-                    className="markdown-editor scrollbar-forge min-h-0 flex-1 resize-none border-0 bg-white px-5 py-4 text-[13px] leading-6 text-slate-900 outline-none placeholder:text-slate-400"
-                    onChange={handleContentChange}
-                    placeholder="# Start writing Markdown..."
-                    ref={editorRef}
-                    spellCheck={false}
-                    value={activeTab.content}
-                  />
-                </label>
-              ) : null}
-
-              {showPreview ? (
+            {showPreview ? (
+              <div
+                className="scrollbar-forge h-full min-h-0 overflow-auto border-t border-slate-100 bg-white lg:border-l lg:border-t-0"
+                onScroll={handlePreviewScroll}
+                ref={previewScrollRef}
+              >
                 <div
-                  className="scrollbar-forge h-full min-h-0 overflow-auto border-t border-slate-100 bg-white lg:border-l lg:border-t-0"
-                  ref={previewScrollRef}
-                >
-                  <div
-                    className="forge-markdown min-h-full w-full px-6 py-5 sm:px-8 lg:px-10"
-                    dangerouslySetInnerHTML={{ __html: renderedHtml }}
-                    ref={previewContentRef}
-                  />
-                </div>
-              ) : null}
-            </div>
-          )}
+                  className="forge-markdown min-h-full w-full px-6 py-5 sm:px-8 lg:px-10"
+                  dangerouslySetInnerHTML={{ __html: renderedHtml }}
+                  ref={previewContentRef}
+                />
+              </div>
+            ) : null}
+          </div>
         </div>
       </section>
 

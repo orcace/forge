@@ -4,8 +4,10 @@ export interface HtmlPreviewInput {
   value: string;
 }
 
-interface PersistedHtmlPreviewState
-  extends Omit<HtmlPreviewState, "indentSize" | "lineWrap"> {
+interface PersistedHtmlPreviewState extends Omit<
+  HtmlPreviewState,
+  "indentSize" | "lineWrap"
+> {
   indentSize?: number;
   lineWrap?: boolean;
 }
