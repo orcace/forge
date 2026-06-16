@@ -510,7 +510,7 @@ ${renderedHtml}
                   {line.number}
                 </span>
                 <span className="min-w-0 overflow-hidden px-5">
-                  <span className="block min-w-0 whitespace-pre-wrap break-words">
+                  <span className="block min-w-0 select-none whitespace-pre-wrap break-words text-transparent">
                     {line.content || " "}
                   </span>
                 </span>
@@ -520,7 +520,7 @@ ${renderedHtml}
         </div>
         <textarea
           className={cn(
-            "markdown-editor scrollbar-forge relative w-full resize-none border-0 bg-transparent py-0 pl-[4.5rem] pr-5 text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400",
+            "markdown-editor scrollbar-forge relative w-full resize-none border-0 bg-transparent py-0 pl-[4.5rem] pr-5 text-[13px] leading-6 text-slate-900 caret-slate-950 outline-none placeholder:text-slate-400",
             "h-full min-h-0 flex-1 overflow-auto",
           )}
           onChange={handleContentChange}
