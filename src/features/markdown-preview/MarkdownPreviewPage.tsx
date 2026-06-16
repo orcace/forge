@@ -83,7 +83,7 @@ export function MarkdownPreviewPage(): JSX.Element {
   const [renameTabId, setRenameTabId] = useState<string | null>(null);
   const [renameTitle, setRenameTitle] = useState("");
   const [editorHeight, setEditorHeight] = useState<number | undefined>();
-  const [editorScroll, setEditorScroll] = useState({ left: 0, top: 0 });
+  const [editorScrollTop, setEditorScrollTop] = useState(0);
   const [storedState, setState] = usePersistedToolState<MarkdownPreviewState>(
     "markdown-preview",
     createMarkdownPreviewState(),
@@ -201,9 +201,7 @@ export function MarkdownPreviewPage(): JSX.Element {
   }
 
   function handleEditorScroll(event: UIEvent<HTMLTextAreaElement>): void {
-    const { scrollLeft, scrollTop } = event.currentTarget;
-
-    setEditorScroll({ left: scrollLeft, top: scrollTop });
+    setEditorScrollTop(event.currentTarget.scrollTop);
   }
 
   function addTab(): void {
@@ -449,7 +447,7 @@ ${renderedHtml}
           <div
             className="markdown-editor min-h-full min-w-full text-[13px] leading-6"
             style={{
-              transform: sharedScroll ? undefined : `translateY(${-editorScroll.top}px)`,
+              transform: sharedScroll ? undefined : `translateY(${-editorScrollTop}px)`,
             }}
           >
             {editorLines.map((line) => (
@@ -461,14 +459,7 @@ ${renderedHtml}
                   {line.number}
                 </span>
                 <span className="min-w-0 overflow-hidden px-5">
-                  <span
-                    className="block w-max whitespace-pre"
-                    style={{
-                      transform: !sharedScroll
-                        ? `translateX(${-editorScroll.left}px)`
-                        : undefined,
-                    }}
-                  >
+                  <span className="block min-w-0 whitespace-pre-wrap break-words">
                     {line.content || " "}
                   </span>
                 </span>
@@ -480,8 +471,8 @@ ${renderedHtml}
           className={cn(
             "markdown-editor scrollbar-forge relative w-full resize-none border-0 bg-transparent py-0 pl-[4.5rem] pr-5 text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400",
             sharedScroll
-              ? "block overflow-hidden whitespace-pre"
-              : "h-full min-h-0 flex-1 overflow-auto whitespace-pre",
+              ? "block overflow-hidden"
+              : "h-full min-h-0 flex-1 overflow-auto",
           )}
           onChange={handleContentChange}
           onScroll={sharedScroll ? undefined : handleEditorScroll}
@@ -490,7 +481,7 @@ ${renderedHtml}
           spellCheck={false}
           style={{ height: sharedScroll ? editorHeight : undefined }}
           value={activeTab.content}
-          wrap="off"
+          wrap="soft"
         />
       </label>
     );
