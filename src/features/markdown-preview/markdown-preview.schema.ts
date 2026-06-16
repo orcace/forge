@@ -17,6 +17,7 @@ export const MarkdownPreviewViewModeSchema = z.enum(["editor", "split", "preview
 
 export const MarkdownPreviewStateSchema = z.object({
   activeTabId: z.string(),
+  lineWrap: z.boolean().optional(),
   previewVisible: z.boolean().optional(),
   syncScroll: z.boolean(),
   tabs: z.array(MarkdownPreviewTabSchema).min(1),
@@ -28,8 +29,9 @@ export type MarkdownPreviewTab = z.infer<typeof MarkdownPreviewTabSchema>;
 export type MarkdownPreviewViewMode = z.infer<typeof MarkdownPreviewViewModeSchema>;
 export type MarkdownPreviewState = Omit<
   z.infer<typeof MarkdownPreviewStateSchema>,
-  "previewVisible" | "viewMode"
+  "lineWrap" | "previewVisible" | "viewMode"
 > & {
+  lineWrap: boolean;
   tabsCollapsed: boolean;
   viewMode: MarkdownPreviewViewMode;
 };

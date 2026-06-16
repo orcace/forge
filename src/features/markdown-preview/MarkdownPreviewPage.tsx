@@ -1,6 +1,6 @@
 import "katex/dist/katex.min.css";
 
-import type { ChangeEvent, FormEvent, JSX } from "react";
+import type { ChangeEvent, FormEvent, JSX, UIEvent } from "react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
@@ -28,6 +28,7 @@ import {
   SplitSquareHorizontal,
   Trash2,
   Upload,
+  WrapText,
   X,
 } from "lucide-react";
 import { usePersistedToolState } from "@/core/storage/use-persisted-tool-state";
@@ -83,6 +84,7 @@ export function MarkdownPreviewPage(): JSX.Element {
   const [renameTabId, setRenameTabId] = useState<string | null>(null);
   const [renameTitle, setRenameTitle] = useState("");
   const [editorHeight, setEditorHeight] = useState<number | undefined>();
+  const [editorScroll, setEditorScroll] = useState({ left: 0, top: 0 });
   const [storedState, setState] = usePersistedToolState<MarkdownPreviewState>(
     "markdown-preview",
     createMarkdownPreviewState(),
@@ -105,6 +107,14 @@ export function MarkdownPreviewPage(): JSX.Element {
     () => estimateMarkdownReadTime(activeTab.content),
     [activeTab.content],
   );
+  const editorLines = useMemo(
+    () =>
+      activeTab.content.split("\n").map((line, index) => ({
+        content: line,
+        number: index + 1,
+      })),
+    [activeTab.content],
+  );
   const showEditor = state.viewMode !== "preview";
   const showPreview = state.viewMode !== "editor";
   const useSharedScroll = state.syncScroll && showEditor && showPreview;
@@ -121,6 +131,7 @@ export function MarkdownPreviewPage(): JSX.Element {
 
     if (
       !parsedState.success ||
+      parsedState.data.lineWrap !== state.lineWrap ||
       parsedState.data.viewMode !== state.viewMode ||
       needsWelcomeMigration
     ) {
@@ -138,7 +149,7 @@ export function MarkdownPreviewPage(): JSX.Element {
 
     editor.style.height = "auto";
     setEditorHeight(Math.max(editor.scrollHeight, editor.clientHeight));
-  }, [activeTab.content, useSharedScroll]);
+  }, [activeTab.content, state.lineWrap, useSharedScroll]);
 
   useEffect(() => {
     if (!previewContentRef.current || !showPreview) {
@@ -188,6 +199,19 @@ export function MarkdownPreviewPage(): JSX.Element {
       ...activeTab,
       content: event.target.value,
       updatedAt: Date.now(),
+    });
+  }
+
+  function handleEditorScroll(event: UIEvent<HTMLTextAreaElement>): void {
+    const { scrollLeft, scrollTop } = event.currentTarget;
+
+    setEditorScroll({ left: scrollLeft, top: scrollTop });
+  }
+
+  function toggleLineWrap(): void {
+    updateState({
+      ...state,
+      lineWrap: !state.lineWrap,
     });
   }
 
@@ -416,6 +440,74 @@ ${renderedHtml}
     pdf.save(`${fileNameFromTitle(activeTab.title)}.pdf`);
   }
 
+  function renderMarkdownEditor(sharedScroll: boolean): JSX.Element {
+    return (
+      <label
+        className={cn(
+          "relative flex min-h-0 flex-col overflow-hidden bg-white",
+          sharedScroll ? "min-h-full border-b border-slate-100 lg:border-b-0" : "h-full",
+        )}
+      >
+        <span className="sr-only">Markdown input</span>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+        >
+          <div
+            className="markdown-editor min-h-full min-w-full text-[13px] leading-6"
+            style={{
+              transform: sharedScroll ? undefined : `translateY(${-editorScroll.top}px)`,
+            }}
+          >
+            {editorLines.map((line) => (
+              <div
+                className="grid min-h-6 grid-cols-[3.25rem_minmax(0,1fr)]"
+                key={line.number}
+              >
+                <span className="select-none border-r border-slate-100 bg-slate-50 px-3 text-right text-slate-400">
+                  {line.number}
+                </span>
+                <span className="min-w-0 overflow-hidden px-5">
+                  <span
+                    className={cn(
+                      "block",
+                      state.lineWrap
+                        ? "min-w-0 whitespace-pre-wrap break-words"
+                        : "w-max whitespace-pre",
+                    )}
+                    style={{
+                      transform:
+                        !sharedScroll && !state.lineWrap
+                          ? `translateX(${-editorScroll.left}px)`
+                          : undefined,
+                    }}
+                  >
+                    {line.content || " "}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <textarea
+          className={cn(
+            "markdown-editor scrollbar-forge relative h-full min-h-0 w-full flex-1 resize-none border-0 bg-transparent py-0 pl-[4.5rem] pr-5 text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400",
+            state.lineWrap ? "overflow-auto" : "overflow-auto whitespace-pre",
+            sharedScroll && "min-h-full overflow-hidden",
+          )}
+          onChange={handleContentChange}
+          onScroll={sharedScroll ? undefined : handleEditorScroll}
+          placeholder="# Start writing Markdown..."
+          ref={editorRef}
+          spellCheck={false}
+          style={{ height: sharedScroll ? editorHeight : undefined }}
+          value={activeTab.content}
+          wrap={state.lineWrap ? "soft" : "off"}
+        />
+      </label>
+    );
+  }
+
   return (
     <>
       <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]">
@@ -481,6 +573,21 @@ ${renderedHtml}
                 Sync
               </Button>
             </Tooltip>
+
+            <button
+              aria-pressed={!state.lineWrap}
+              className={cn(
+                "flex h-8 items-center gap-2 rounded-md px-2.5 text-[12px] font-semibold transition",
+                !state.lineWrap
+                  ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
+                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
+              )}
+              onClick={toggleLineWrap}
+              type="button"
+            >
+              <WrapText aria-hidden="true" className="h-4 w-4" />
+              Disable line wrap
+            </button>
 
             <Tooltip content="Open Markdown guide" side="bottom">
               <Button
@@ -741,18 +848,7 @@ ${renderedHtml}
           {useSharedScroll ? (
             <div className="scrollbar-forge h-full min-h-0 overflow-auto bg-white">
               <div className="grid min-h-full lg:grid-cols-2">
-                <label className="flex min-h-full flex-col border-b border-slate-100 lg:border-b-0">
-                  <span className="sr-only">Markdown input</span>
-                  <textarea
-                    className="markdown-editor min-h-full w-full resize-none overflow-hidden border-0 bg-white px-5 py-4 text-[13px] leading-6 text-slate-900 outline-none placeholder:text-slate-400"
-                    onChange={handleContentChange}
-                    placeholder="# Start writing Markdown..."
-                    ref={editorRef}
-                    spellCheck={false}
-                    style={{ height: editorHeight }}
-                    value={activeTab.content}
-                  />
-                </label>
+                {renderMarkdownEditor(true)}
 
                 <div className="border-t border-slate-100 bg-white lg:border-l lg:border-t-0">
                   <div
@@ -770,19 +866,7 @@ ${renderedHtml}
                 showEditor && showPreview ? "lg:grid-cols-2" : "grid-cols-1",
               )}
             >
-              {showEditor ? (
-                <label className="flex h-full min-h-0 flex-col overflow-hidden">
-                  <span className="sr-only">Markdown input</span>
-                  <textarea
-                    className="markdown-editor scrollbar-forge min-h-0 flex-1 resize-none border-0 bg-white px-5 py-4 text-[13px] leading-6 text-slate-900 outline-none placeholder:text-slate-400"
-                    onChange={handleContentChange}
-                    placeholder="# Start writing Markdown..."
-                    ref={editorRef}
-                    spellCheck={false}
-                    value={activeTab.content}
-                  />
-                </label>
-              ) : null}
+              {showEditor ? renderMarkdownEditor(false) : null}
 
               {showPreview ? (
                 <div

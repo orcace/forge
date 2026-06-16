@@ -427,9 +427,7 @@ export function HtmlPreviewPage(): JSX.Element {
                   <span className="select-none border-r border-slate-100 bg-slate-50 px-3 text-right text-slate-400">
                     {line.number}
                   </span>
-                  <span
-                    className="min-w-0 overflow-hidden px-5"
-                  >
+                  <span className="min-w-0 overflow-hidden px-5">
                     <span
                       className={cn(
                         "block",
