@@ -1,7 +1,15 @@
 # Forge
 
-Forge is a fast, privacy-first developer toolbox built with React, TypeScript,
-and Vite.
+```
+███████╗ ██████╗ ██████╗  ██████╗ ███████╗
+██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
+█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
+██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝
+██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
+╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+```
+
+Forge is a fast, privacy-first developer toolbox.
 
 The project is designed as a browser-based developer workstation: tools are
 registered once, discovered through the registry, and surfaced consistently in
@@ -19,19 +27,6 @@ tool conventions are being established before the first stable release.
 - Keyboard-first UX and command palette direction
 - Persistent workspace primitives
 - Privacy-first local execution
-
-## Tech Stack
-
-- React 19
-- TypeScript strict mode
-- Vite
-- Tailwind CSS 4
-- shadcn/ui conventions
-- Zustand
-- React Router
-- Zod
-- Monaco Editor
-- Lucide Icons
 
 ## Getting Started
 
