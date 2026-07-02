@@ -1,13 +1,60 @@
 import type { JSX } from "react";
+import { useMemo, useState } from "react";
+import { Copy, RotateCcw } from "lucide-react";
+import { Button } from "@/shared/ui/button";
+import {
+  ToolOutput,
+  ToolSurface,
+  ToolTextarea,
+  ToolToolbar,
+  ToolTitle,
+} from "@/shared/components/ToolSurface";
+import { createSlug } from "./slugify.service";
 
 export function SlugifyPage(): JSX.Element {
+  const [input, setInput] = useState("Forge Markdown Preview Design Language");
+  const slug = useMemo(() => createSlug(input), [input]);
+
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-6">
-      <p className="text-xs font-semibold uppercase text-sky-600">Tool module</p>
-      <h1 className="mt-2 text-xl font-semibold text-slate-950">Slugify</h1>
-      <p className="mt-2 text-sm leading-6 text-slate-600">
-        Create clean URL slugs from text.
-      </p>
-    </section>
+    <ToolSurface>
+      <ToolToolbar
+        left={
+          <>
+            <ToolTitle eyebrow="Utilities" title="Slugify" />
+            <p className="hidden text-[12px] font-medium text-slate-500 md:block">
+              Create lowercase URL-safe slugs.
+            </p>
+          </>
+        }
+        right={
+          <>
+            <Button
+              disabled={!slug}
+              onClick={() => void navigator.clipboard.writeText(slug)}
+              size="sm"
+              variant="ghost"
+            >
+              <Copy aria-hidden="true" className="h-4 w-4" />
+              Copy
+            </Button>
+            <Button onClick={() => setInput("")} size="sm" variant="ghost">
+              <RotateCcw aria-hidden="true" className="h-4 w-4" />
+              Reset
+            </Button>
+          </>
+        }
+      />
+      <div className="grid min-h-0 flex-1 overflow-hidden lg:grid-cols-2">
+        <ToolTextarea
+          label="Slug input"
+          onChange={setInput}
+          placeholder="Text to slugify..."
+          value={input}
+        />
+        <div className="border-t border-slate-200 lg:border-l lg:border-t-0">
+          <ToolOutput label="Slug" value={slug} />
+        </div>
+      </div>
+    </ToolSurface>
   );
 }

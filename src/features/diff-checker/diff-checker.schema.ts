@@ -5,3 +5,40 @@ export const DiffCheckerSchema = z.object({
 });
 
 export type DiffCheckerForm = z.infer<typeof DiffCheckerSchema>;
+
+export const DiffCheckerLayoutSchema = z.enum(["split", "unified"]);
+
+export const DiffCheckerStateSchema = z.object({
+  hideUnchanged: z.boolean().optional(),
+  hideWhitespace: z.boolean().optional(),
+  inputVisible: z.boolean().optional(),
+  ignoreBlankLines: z.boolean().optional(),
+  layout: DiffCheckerLayoutSchema.optional(),
+  left: z.string(),
+  lineWrap: z.boolean().optional(),
+  right: z.string(),
+  syncScroll: z.boolean().optional(),
+  syntax: z.string().optional(),
+});
+
+export type DiffCheckerLayout = z.infer<typeof DiffCheckerLayoutSchema>;
+export type DiffCheckerState = Omit<
+  z.infer<typeof DiffCheckerStateSchema>,
+  | "hideUnchanged"
+  | "hideWhitespace"
+  | "ignoreBlankLines"
+  | "inputVisible"
+  | "layout"
+  | "lineWrap"
+  | "syncScroll"
+  | "syntax"
+> & {
+  hideUnchanged: boolean;
+  hideWhitespace: boolean;
+  ignoreBlankLines: boolean;
+  inputVisible: boolean;
+  layout: DiffCheckerLayout;
+  lineWrap: boolean;
+  syncScroll: boolean;
+  syntax: string;
+};
