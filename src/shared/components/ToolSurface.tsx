@@ -38,7 +38,7 @@ interface ToolTitleProps {
 interface PaneHeaderProps {
   actions?: ReactNode;
   tone?: "blue" | "emerald" | "rose" | "slate" | "violet";
-  title: string;
+  title: ReactNode;
 }
 
 interface ResultRowProps {
@@ -105,7 +105,7 @@ export function PaneHeader({
         tones[tone],
       )}
     >
-      <p className="text-[12px] font-semibold uppercase tracking-wide">{title}</p>
+      <div className="text-[12px] font-semibold uppercase tracking-wide">{title}</div>
       {actions}
     </div>
   );
