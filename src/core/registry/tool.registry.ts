@@ -50,7 +50,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Diff,
     persist: true,
     route: "/tools/diff-checker",
-    status: "planned",
+    status: "available",
   },
   {
     id: "json-formatter",
@@ -61,7 +61,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Braces,
     persist: true,
     route: "/tools/json-formatter",
-    status: "planned",
+    status: "available",
   },
   {
     id: "json-yaml",
@@ -72,7 +72,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Code2,
     persist: true,
     route: "/tools/json-yaml",
-    status: "planned",
+    status: "available",
   },
   {
     id: "jwt-decoder",
@@ -83,7 +83,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: ShieldCheck,
     persist: false,
     route: "/tools/jwt-decoder",
-    status: "planned",
+    status: "available",
   },
   {
     id: "base64",
@@ -94,7 +94,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Binary,
     persist: false,
     route: "/tools/base64",
-    status: "planned",
+    status: "available",
   },
   {
     id: "url-encoder",
@@ -105,7 +105,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Link,
     persist: false,
     route: "/tools/url-encoder",
-    status: "planned",
+    status: "available",
   },
   {
     id: "hash-generator",
@@ -116,7 +116,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Hash,
     persist: false,
     route: "/tools/hash-generator",
-    status: "planned",
+    status: "available",
   },
   {
     id: "password-generator",
@@ -127,7 +127,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: KeyRound,
     persist: false,
     route: "/tools/password-generator",
-    status: "planned",
+    status: "available",
   },
   {
     id: "uuid",
@@ -138,7 +138,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Fingerprint,
     persist: false,
     route: "/tools/uuid",
-    status: "planned",
+    status: "available",
   },
   {
     id: "timestamp",
@@ -149,7 +149,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Clock3,
     persist: false,
     route: "/tools/timestamp",
-    status: "planned",
+    status: "available",
   },
   {
     id: "case-converter",
@@ -160,7 +160,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: TextCursorInput,
     persist: false,
     route: "/tools/case-converter",
-    status: "planned",
+    status: "available",
   },
   {
     id: "slugify",
@@ -171,7 +171,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Pilcrow,
     persist: false,
     route: "/tools/slugify",
-    status: "planned",
+    status: "available",
   },
   {
     id: "regex-tester",
@@ -182,7 +182,7 @@ export const toolRegistry: ToolDefinition[] = [
     icon: Sparkles,
     persist: true,
     route: "/tools/regex-tester",
-    status: "planned",
+    status: "available",
   },
 ];
 

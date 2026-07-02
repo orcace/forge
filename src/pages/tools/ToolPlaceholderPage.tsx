@@ -2,9 +2,22 @@ import type { JSX } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { getToolById } from "@/core/registry/tool.registry";
+import { Base64Page } from "@/features/base64";
+import { CaseConverterPage } from "@/features/case-converter";
+import { DiffCheckerPage } from "@/features/diff-checker";
+import { HashGeneratorPage } from "@/features/hash";
 import { useWorkspaceStore } from "@/core/workspace/workspace.store";
 import { HtmlPreviewPage } from "@/features/html-preview";
+import { JsonToolsPage } from "@/features/json";
+import { JsonYamlPage } from "@/features/json-yaml";
+import { JwtDecoderPage } from "@/features/jwt-decoder";
 import { MarkdownPreviewPage } from "@/features/markdown-preview";
+import { PasswordGeneratorPage } from "@/features/password-generator";
+import { RegexTesterPage } from "@/features/regex-tester";
+import { SlugifyPage } from "@/features/slugify";
+import { TimestampPage } from "@/features/timestamp";
+import { UrlEncoderPage } from "@/features/url-encoder";
+import { UuidPage } from "@/features/uuid";
 import { ToolLayout } from "@/layouts/ToolLayout";
 import { EmptyState } from "@/shared/components/EmptyState";
 import { NotFoundPage } from "@/pages/not-found/NotFoundPage";
@@ -43,6 +56,30 @@ export function ToolPlaceholderPage(): JSX.Element {
     return (
       <ToolLayout showHeader={false} tool={tool}>
         <HtmlPreviewPage />
+      </ToolLayout>
+    );
+  }
+
+  const toolPages: Record<string, JSX.Element> = {
+    base64: <Base64Page />,
+    "case-converter": <CaseConverterPage />,
+    "diff-checker": <DiffCheckerPage />,
+    "hash-generator": <HashGeneratorPage />,
+    "json-formatter": <JsonToolsPage />,
+    "json-yaml": <JsonYamlPage />,
+    "jwt-decoder": <JwtDecoderPage />,
+    "password-generator": <PasswordGeneratorPage />,
+    "regex-tester": <RegexTesterPage />,
+    slugify: <SlugifyPage />,
+    timestamp: <TimestampPage />,
+    "url-encoder": <UrlEncoderPage />,
+    uuid: <UuidPage />,
+  };
+
+  if (toolPages[tool.id]) {
+    return (
+      <ToolLayout showHeader={false} tool={tool}>
+        {toolPages[tool.id]}
       </ToolLayout>
     );
   }
