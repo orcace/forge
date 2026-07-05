@@ -98,9 +98,9 @@ export function DiffCheckerPage(): JSX.Element {
   }
 
   return (
-    <section className="flex min-h-0 flex-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-slate-50/70 lg:flex">
-        <div className="scrollbar-forge flex-1 space-y-5 overflow-y-auto p-3">
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03] lg:flex-row">
+      <aside className="flex max-h-64 min-w-0 w-full shrink-0 flex-col border-b border-slate-200 bg-slate-50/70 lg:max-h-none lg:w-56 lg:border-b-0 lg:border-r xl:w-64">
+        <div className="scrollbar-forge flex-1 space-y-4 overflow-y-auto p-3">
           <OptionGroup>
             <ToggleRow
               checked={state.hideWhitespace}
@@ -152,10 +152,10 @@ export function DiffCheckerPage(): JSX.Element {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex min-h-14 shrink-0 flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3">
+        <header className="scrollbar-forge flex min-h-14 min-w-0 shrink-0 items-center gap-2 overflow-x-auto border-b border-slate-200 bg-white px-3">
           <div className="min-w-0 flex-1" />
 
-          <div className="flex items-center gap-1">
+          <div className="flex shrink-0 items-center gap-1">
             <Button
               className="h-9 px-3"
               onClick={() => patchState({ inputVisible: !state.inputVisible })}
@@ -418,7 +418,8 @@ function UnifiedDiffView({
         {changes.map((change, index) => (
           <div
             className={cn(
-              "grid min-h-7 grid-cols-[5.25rem_minmax(0,1fr)] px-2",
+              "grid min-h-7 min-w-full grid-cols-[5.25rem_minmax(0,1fr)] px-2",
+              !lineWrap && "w-max",
               getChangeClass(
                 change.type,
                 changes[index - 1]?.type === change.type,
@@ -483,7 +484,8 @@ function SplitLine({
   return (
     <div
       className={cn(
-        "grid min-h-7 grid-cols-[4.75rem_minmax(0,1fr)] px-2 font-mono text-[13px] leading-6",
+        "grid min-h-7 min-w-full grid-cols-[4.75rem_minmax(0,1fr)] px-2 font-mono text-[13px] leading-6",
+        !lineWrap && "w-max",
         change
           ? getChangeClass(change.type, previousSame, nextSame)
           : "bg-[repeating-linear-gradient(135deg,#ffffff_0,#ffffff_5px,#f8fafc_5px,#f8fafc_10px)] text-slate-300",
@@ -585,11 +587,11 @@ function ToggleRow({ checked, label, onChange }: ToggleRowProps): JSX.Element {
   return (
     <button
       aria-pressed={checked}
-      className="flex w-full items-center justify-between gap-3 text-left text-[13px] font-medium text-slate-700"
+      className="grid w-full grid-cols-[minmax(0,1fr)_2.5rem] items-center gap-3 text-left text-[13px] font-medium text-slate-700"
       onClick={onChange}
       type="button"
     >
-      <span>{label}</span>
+      <span className="min-w-0 truncate">{label}</span>
       <span
         className={cn(
           "flex h-5 w-10 items-center rounded-full p-0.5 transition",
