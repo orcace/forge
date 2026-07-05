@@ -15,7 +15,7 @@ export function DocsMarkdown({ markdown }: DocsMarkdownProps): JSX.Element {
 
   return (
     <article
-      className="forge-markdown docs-markdown max-w-none"
+      className="forge-markdown docs-markdown min-w-0 max-w-full"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

@@ -10,6 +10,7 @@ import { Sidebar } from "@/widgets/sidebar/Sidebar";
 export function AppLayout(): JSX.Element {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const openCommandPalette = useCallback(() => setCommandPaletteOpen(true), []);
   const openShortcuts = useCallback(() => setShortcutsOpen(true), []);
 
@@ -18,9 +19,14 @@ export function AppLayout(): JSX.Element {
   return (
     <div className="h-screen overflow-hidden bg-slate-50 text-foreground">
       <div className="flex h-screen min-h-0">
-        <Sidebar onOpenShortcuts={openShortcuts} />
+        <Sidebar
+          mobileOpen={mobileSidebarOpen}
+          onMobileOpenChange={setMobileSidebarOpen}
+          onOpenShortcuts={openShortcuts}
+        />
         <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <Header
+            onOpenNavigation={() => setMobileSidebarOpen(true)}
             onOpenCommandPalette={openCommandPalette}
             onOpenShortcuts={openShortcuts}
           />

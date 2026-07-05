@@ -1,34 +1,92 @@
 # Forge
 
-```
-███████╗ ██████╗ ██████╗  ██████╗ ███████╗
-██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔════╝
-█████╗  ██║   ██║██████╔╝██║  ███╗█████╗
-██╔══╝  ██║   ██║██╔══██╗██║   ██║██╔══╝
-██║     ╚██████╔╝██║  ██║╚██████╔╝███████╗
-╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝
-```
+Forge is a local-first developer workstation for the small but constant tasks
+that happen between writing code and shipping it.
 
-Forge is a fast, privacy-first developer toolbox.
+Use it to preview Markdown and HTML, compare text, format JSON, inspect JWTs,
+encode data, generate secrets, test regular expressions, and clean up everyday
+developer input without jumping across unrelated tabs.
 
-The project is designed as a browser-based developer workstation: tools are
-registered once, discovered through the registry, and surfaced consistently in
-navigation, search, routing, favorites, and recent tools.
+![Forge home screen](docs/assets/forge-home.png)
 
-## Status
+## Why Forge Exists
 
-Forge is in early foundation work. The architecture, contributor workflow, and
-tool conventions are being established before the first stable release.
+Developers often handle sensitive, temporary, messy text:
 
-## Features
+- JWTs copied from logs
+- JSON payloads from APIs
+- YAML configuration snippets
+- URLs that need decoding
+- secrets that need generating
+- text that needs comparing before a commit
+- timestamps, UUIDs, slugs, hashes, and regex checks
 
-- Browser-only developer tools with no backend requirement for core workflows
-- Registry-driven tool model
-- Keyboard-first UX and command palette direction
-- Persistent workspace primitives
-- Privacy-first local execution
+Forge keeps these tasks in one calm interface with consistent controls,
+keyboard-friendly navigation, and a privacy-first model.
 
-## Getting Started
+## Highlights
+
+- **Local-first workflows**  
+  Core tools run in the browser. Sensitive input stays close to your device.
+
+- **One product language**  
+  Tools share the same layout patterns, copy actions, toolbar behavior,
+  keyboard shortcuts, and visual system.
+
+- **Fast command access**  
+  Open the command palette with `Ctrl K` and jump directly to a tool.
+
+- **Light, dark, and system themes**  
+  The dark theme is tuned for a soft Forge palette rather than pure black.
+
+- **Useful by default**  
+  Tools include realistic examples, validation states, copy/export actions, and
+  workspace persistence where it helps.
+
+## Tools
+
+### Editors
+
+- Markdown Preview
+- HTML Preview
+- Diff Checker
+
+### Data
+
+- JSON Formatter
+- JSON YAML Converter
+- JWT Decoder
+
+### Encoding
+
+- Base64
+- URL Encoder
+
+### Crypto
+
+- JWT Secret Generator
+- Hash Generator
+- Password Generator
+
+### Utilities
+
+- UUID Generator
+- Timestamp Converter
+- Case Converter
+- Slugify
+- Regex Tester
+
+## Documentation
+
+- [Documentation home](docs/README.md)
+- [Product overview](docs/product.md)
+- [Tool guide](docs/tools.md)
+- [Privacy model](docs/privacy.md)
+- [Keyboard shortcuts](docs/shortcuts.md)
+- [Deployment notes](docs/deployment.md)
+- [Support](docs/support.md)
+
+## Local Development
 
 Requirements:
 
@@ -47,34 +105,39 @@ Start the development server:
 pnpm dev
 ```
 
-Run quality checks:
+Run the quality gate:
 
 ```bash
 pnpm check
 ```
 
-## Documentation
+Build for production:
 
-- [Architecture](docs/architecture.md)
-- [Contributing](docs/contributing.md)
-- [Adding a new tool](docs/adding-a-new-tool.md)
-- [Coding conventions](docs/coding-conventions.md)
-- [Roadmap](docs/roadmap.md)
+```bash
+pnpm build
+```
 
-## Project Principles
+## Deployment
 
-- Registry first
-- Feature isolation
-- Shared UI primitives
-- Strict TypeScript
-- No direct `localStorage` access from feature modules
-- Tools run entirely in the browser whenever possible
+Forge is a static Vite app. Any static host can serve it after `pnpm build`.
 
-## Contributing
+For single-page app routing, configure the host to fall back every route to
+`index.html`. This keeps routes such as `/tools/jwt-decoder`, `/privacy`, and
+`/terms` working after refresh.
 
-Please read [docs/contributing.md](docs/contributing.md) before opening a pull
-request. New tools should follow [docs/adding-a-new-tool.md](docs/adding-a-new-tool.md).
+## Privacy
+
+Forge is designed for sensitive developer workflows. The core tools process
+input locally in the browser and do not require an account or backend service.
+
+Read more in [docs/privacy.md](docs/privacy.md).
+
+## Support
+
+- Ask a question: [docs/support.md](docs/support.md)
+- Report an issue: [github.com/orcace/forge/issues](https://github.com/orcace/forge/issues)
+- Share feedback: [docs/support.md](docs/support.md)
 
 ## License
 
-MIT License
+MIT License. See [LICENSE](LICENSE).

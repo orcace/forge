@@ -233,7 +233,7 @@ export async function generateJwtExample(
     sub: "user_42",
     name: "Forge Developer",
     admin: false,
-    iss: "https://auth.forge.local",
+    iss: "https://forge.cuthanhcam.workers.dev/",
     aud: ["forge-api", "forge-cli"],
     iat: issuedAt,
     nbf: issuedAt,

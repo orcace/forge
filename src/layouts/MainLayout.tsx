@@ -14,7 +14,7 @@ export function MainLayout({
   title,
 }: MainLayoutProps): JSX.Element {
   return (
-    <main className="min-w-0 flex-1 px-4 py-6 md:px-6 lg:px-8">
+    <main className="scrollbar-forge min-h-0 min-w-0 flex-1 overflow-auto px-4 py-6 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6">
           {eyebrow ? (

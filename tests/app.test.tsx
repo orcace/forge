@@ -9,7 +9,7 @@ describe("App", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: /Developer tools without the tab drift\./,
+        name: /Where rough input becomes usable work\./,
       }),
     ).toBeInTheDocument();
     expect(
@@ -26,6 +26,8 @@ describe("App", () => {
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: "Search tools" })).toHaveFocus();
+    expect(screen.getByText("16 tools")).toBeInTheDocument();
+    expect(screen.getByText("Tree view")).toBeInTheDocument();
   });
 
   it("opens the keyboard shortcuts dialog", async () => {

@@ -15,6 +15,14 @@ export function HeaderActions({
 }: HeaderActionsProps): JSX.Element {
   return (
     <div className="flex items-center gap-2">
+      <button
+        aria-label="Search tools"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 md:hidden"
+        onClick={onOpenCommandPalette}
+        type="button"
+      >
+        <Search aria-hidden="true" className="h-4 w-4" />
+      </button>
       <Button
         className="hidden min-w-52 justify-start text-slate-500 md:inline-flex"
         onClick={onOpenCommandPalette}
@@ -37,7 +45,7 @@ export function HeaderActions({
       <ThemeMenu />
       <a
         aria-label="Open GitHub profile"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950"
+        className="hidden h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 sm:inline-flex"
         href="https://github.com/cuthanhcam"
         rel="noreferrer"
         target="_blank"

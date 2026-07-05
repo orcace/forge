@@ -19,7 +19,7 @@ export function CommandPaletteItem({
   return (
     <button
       className={cn(
-        "flex w-full items-center gap-3 rounded-md px-3 py-3 text-left transition",
+        "flex w-full items-start gap-3 rounded-md px-3 py-3 text-left transition",
         active ? "bg-sky-50 ring-1 ring-sky-100" : "hover:bg-slate-50",
       )}
       onClick={onSelect}
@@ -29,13 +29,30 @@ export function CommandPaletteItem({
         <Icon aria-hidden="true" className="h-4 w-4" />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <p className="truncate text-sm font-medium text-slate-950">{tool.name}</p>
           <Badge className="h-5 px-1.5 text-[10px]" tone="neutral">
             {tool.category}
           </Badge>
+          <Badge
+            className="h-5 px-1.5 text-[10px]"
+            tone={tool.status === "available" ? "success" : "neutral"}
+          >
+            {tool.status}
+          </Badge>
         </div>
-        <p className="mt-1 truncate text-xs text-slate-500">{tool.description}</p>
+        <p className="mt-1 text-xs leading-5 text-slate-500">{tool.description}</p>
+        <div className="mt-2 flex min-w-0 flex-wrap gap-1.5">
+          {tool.features.map((feature) => (
+            <span
+              className="rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-semibold text-slate-500"
+              key={feature}
+            >
+              {feature}
+            </span>
+          ))}
+        </div>
+        <p className="mt-2 truncate font-mono text-[10px] text-slate-400">{tool.route}</p>
       </div>
     </button>
   );

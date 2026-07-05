@@ -12,7 +12,7 @@ import {
 import { testRegex } from "./regex-tester.service";
 
 const sampleText = `Forge includes Markdown Preview, HTML Preview, JSON Formatter, and Regex Tester.
-Contact dev@forge.local or security@forge.local for internal tool feedback.
+Contact cuthanhcam04@gmail.com or charlie.cu@outlook.com for internal tool feedback.
 Issue IDs: FORGE-1024, FORGE-2048, and FORGE-4096.`;
 
 export function RegexTesterPage(): JSX.Element {

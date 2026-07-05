@@ -6,11 +6,13 @@ import { HeaderActions } from "./HeaderActions";
 
 interface HeaderProps {
   onOpenCommandPalette: () => void;
+  onOpenNavigation: () => void;
   onOpenShortcuts: () => void;
 }
 
 export function Header({
   onOpenCommandPalette,
+  onOpenNavigation,
   onOpenShortcuts,
 }: HeaderProps): JSX.Element {
   const location = useLocation();
@@ -23,6 +25,7 @@ export function Header({
         <button
           aria-label="Open navigation"
           className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 lg:hidden"
+          onClick={onOpenNavigation}
           type="button"
         >
           <Menu aria-hidden="true" className="h-5 w-5" />

@@ -24,7 +24,7 @@ export function SidebarToolItem({
             collapsed && isActive,
           "min-h-8 gap-2 rounded-md px-2.5 py-1.5 text-slate-600 hover:bg-slate-100 hover:text-slate-950":
             !collapsed && !isActive,
-          "min-h-8 gap-2 rounded-md bg-sky-50 px-2.5 py-1.5 text-sky-700 ring-1 ring-sky-100":
+          "min-h-8 gap-2 rounded-md bg-sky-50 px-2.5 py-1.5 text-sky-700 ring-1 ring-inset ring-sky-200":
             !collapsed && isActive,
         })
       }

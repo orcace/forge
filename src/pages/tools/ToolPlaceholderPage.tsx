@@ -1,27 +1,81 @@
-import type { JSX } from "react";
-import { useEffect } from "react";
+import type { JSX, LazyExoticComponent } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { getToolById } from "@/core/registry/tool.registry";
-import { Base64Page } from "@/features/base64";
-import { CaseConverterPage } from "@/features/case-converter";
-import { DiffCheckerPage } from "@/features/diff-checker";
-import { HashGeneratorPage } from "@/features/hash";
 import { useWorkspaceStore } from "@/core/workspace/workspace.store";
-import { HtmlPreviewPage } from "@/features/html-preview";
-import { JsonToolsPage } from "@/features/json";
-import { JsonYamlPage } from "@/features/json-yaml";
-import { JwtDecoderPage } from "@/features/jwt-decoder";
-import { JwtSecretPage } from "@/features/jwt-secret";
-import { MarkdownPreviewPage } from "@/features/markdown-preview";
-import { PasswordGeneratorPage } from "@/features/password-generator";
-import { RegexTesterPage } from "@/features/regex-tester";
-import { SlugifyPage } from "@/features/slugify";
-import { TimestampPage } from "@/features/timestamp";
-import { UrlEncoderPage } from "@/features/url-encoder";
-import { UuidPage } from "@/features/uuid";
 import { ToolLayout } from "@/layouts/ToolLayout";
 import { EmptyState } from "@/shared/components/EmptyState";
+import { LoadingState } from "@/shared/components/LoadingState";
 import { NotFoundPage } from "@/pages/not-found/NotFoundPage";
+
+const toolPages: Record<string, LazyExoticComponent<() => JSX.Element>> = {
+  base64: lazy(() =>
+    import("@/features/base64").then((module) => ({ default: module.Base64Page })),
+  ),
+  "case-converter": lazy(() =>
+    import("@/features/case-converter").then((module) => ({
+      default: module.CaseConverterPage,
+    })),
+  ),
+  "diff-checker": lazy(() =>
+    import("@/features/diff-checker").then((module) => ({
+      default: module.DiffCheckerPage,
+    })),
+  ),
+  "hash-generator": lazy(() =>
+    import("@/features/hash").then((module) => ({ default: module.HashGeneratorPage })),
+  ),
+  "html-preview": lazy(() =>
+    import("@/features/html-preview").then((module) => ({
+      default: module.HtmlPreviewPage,
+    })),
+  ),
+  "json-formatter": lazy(() =>
+    import("@/features/json").then((module) => ({ default: module.JsonToolsPage })),
+  ),
+  "json-yaml": lazy(() =>
+    import("@/features/json-yaml").then((module) => ({ default: module.JsonYamlPage })),
+  ),
+  "jwt-decoder": lazy(() =>
+    import("@/features/jwt-decoder").then((module) => ({
+      default: module.JwtDecoderPage,
+    })),
+  ),
+  "jwt-secret": lazy(() =>
+    import("@/features/jwt-secret").then((module) => ({ default: module.JwtSecretPage })),
+  ),
+  "markdown-preview": lazy(() =>
+    import("@/features/markdown-preview").then((module) => ({
+      default: module.MarkdownPreviewPage,
+    })),
+  ),
+  "password-generator": lazy(() =>
+    import("@/features/password-generator").then((module) => ({
+      default: module.PasswordGeneratorPage,
+    })),
+  ),
+  "regex-tester": lazy(() =>
+    import("@/features/regex-tester").then((module) => ({
+      default: module.RegexTesterPage,
+    })),
+  ),
+  slugify: lazy(() =>
+    import("@/features/slugify").then((module) => ({ default: module.SlugifyPage })),
+  ),
+  timestamp: lazy(() =>
+    import("@/features/timestamp").then((module) => ({
+      default: module.TimestampPage,
+    })),
+  ),
+  "url-encoder": lazy(() =>
+    import("@/features/url-encoder").then((module) => ({
+      default: module.UrlEncoderPage,
+    })),
+  ),
+  uuid: lazy(() =>
+    import("@/features/uuid").then((module) => ({ default: module.UuidPage })),
+  ),
+};
 
 export function ToolPlaceholderPage(): JSX.Element {
   const { toolId } = useParams();
@@ -45,43 +99,14 @@ export function ToolPlaceholderPage(): JSX.Element {
     return <NotFoundPage />;
   }
 
-  if (tool.id === "markdown-preview") {
+  const ToolPage = toolPages[tool.id];
+
+  if (ToolPage) {
     return (
       <ToolLayout showHeader={false} tool={tool}>
-        <MarkdownPreviewPage />
-      </ToolLayout>
-    );
-  }
-
-  if (tool.id === "html-preview") {
-    return (
-      <ToolLayout showHeader={false} tool={tool}>
-        <HtmlPreviewPage />
-      </ToolLayout>
-    );
-  }
-
-  const toolPages: Record<string, JSX.Element> = {
-    base64: <Base64Page />,
-    "case-converter": <CaseConverterPage />,
-    "diff-checker": <DiffCheckerPage />,
-    "hash-generator": <HashGeneratorPage />,
-    "json-formatter": <JsonToolsPage />,
-    "json-yaml": <JsonYamlPage />,
-    "jwt-decoder": <JwtDecoderPage />,
-    "jwt-secret": <JwtSecretPage />,
-    "password-generator": <PasswordGeneratorPage />,
-    "regex-tester": <RegexTesterPage />,
-    slugify: <SlugifyPage />,
-    timestamp: <TimestampPage />,
-    "url-encoder": <UrlEncoderPage />,
-    uuid: <UuidPage />,
-  };
-
-  if (toolPages[tool.id]) {
-    return (
-      <ToolLayout showHeader={false} tool={tool}>
-        {toolPages[tool.id]}
+        <Suspense fallback={<LoadingState />}>
+          <ToolPage />
+        </Suspense>
       </ToolLayout>
     );
   }

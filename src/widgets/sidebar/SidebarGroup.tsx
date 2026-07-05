@@ -53,8 +53,8 @@ export function SidebarGroup({
           open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
         )}
       >
-        <div className="overflow-hidden">
-          <div className="ml-3 space-y-0.5 border-l border-slate-200 pl-2">
+        <div className="overflow-hidden px-1 py-0.5">
+          <div className="ml-2 space-y-1 border-l border-slate-200 pl-2">
             {tools.map((tool) => (
               <SidebarToolItem key={tool.id} tool={tool} />
             ))}

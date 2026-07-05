@@ -1,0 +1,26 @@
+# Forge Documentation
+
+Welcome to the public documentation for Forge.
+
+Forge is a browser-based developer workstation for everyday text, data,
+encoding, crypto, and utility workflows. It is built around a local-first model
+so developers can work with sensitive snippets without sending them through a
+collection of unrelated websites.
+
+## Start Here
+
+- [Product overview](product.md)
+- [Tool guide](tools.md)
+- [Privacy model](privacy.md)
+- [Keyboard shortcuts](shortcuts.md)
+- [Deployment notes](deployment.md)
+- [Support](support.md)
+
+## Documentation Goals
+
+These docs are written for people using Forge, evaluating Forge, or deploying
+their own copy. They explain what the product does, what data it handles, and
+how to use it safely.
+
+Development and implementation notes can live elsewhere when needed; this
+folder should stay focused on Forge as a product.

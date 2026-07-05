@@ -39,22 +39,23 @@ describe("url-encoder service", () => {
 
   it("encodes full URLs while preserving structure", () => {
     const result = transformUrl(
-      "https://forge.local/tools/url encoder?q=hello forge#result panel",
+      "https://forge.cuthanhcam.workers.dev/tools/url encoder?q=hello forge#result panel",
       "encode",
       { strategy: "full-url" },
     );
 
-    expect(result.value).toContain("https://forge.local/");
+    expect(result.value).toContain("https://forge.cuthanhcam.workers.dev/");
     expect(result.value).toContain("url%20encoder");
     expect(result.value).toContain("hello%20forge");
     expect(result.value).toContain("#result%20panel");
   });
 
   it("extracts URL parts and query parameters", () => {
-    const url = "https://forge.local/tools?name=Markdown%20Preview&lang=vi-VN";
+    const url =
+      "https://forge.cuthanhcam.workers.dev/tools?name=Markdown%20Preview&lang=vi-VN";
 
     expect(getUrlParts(url).find((part) => part.label === "Host")?.value).toBe(
-      "forge.local",
+      "forge.cuthanhcam.workers.dev",
     );
     expect(getQueryParams(url)).toEqual([
       { key: "name", value: "Markdown Preview" },

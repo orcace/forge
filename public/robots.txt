@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://forge.cuthanhcam.workers.dev/sitemap.xml

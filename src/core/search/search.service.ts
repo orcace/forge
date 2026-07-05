@@ -28,6 +28,7 @@ function scoreTool(tool: ToolDefinition, query: string): number {
   const name = normalize(tool.name);
   const category = normalize(tool.category);
   const description = normalize(tool.description);
+  const features = tool.features.map(normalize);
   const keywords = tool.keywords.map(normalize);
 
   if (name === query) {
@@ -44,6 +45,15 @@ function scoreTool(tool: ToolDefinition, query: string): number {
 
   if (keywords.some((keyword) => keyword === query || keyword.startsWith(query))) {
     return 50;
+  }
+
+  if (
+    features.some(
+      (feature) =>
+        feature === query || feature.startsWith(query) || feature.includes(query),
+    )
+  ) {
+    return 45;
   }
 
   if (category.includes(query)) {

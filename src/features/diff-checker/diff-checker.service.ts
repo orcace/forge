@@ -101,7 +101,7 @@ The UI should not require a Compare button because edits should be reflected imm
 
 ## 7. Long Line Test
 
-This line is intentionally long so the Disable line wrap control can be tested with a realistic sentence that keeps moving across the editor pane, includes a URL like https://forge.local/tools/diff-checker?mode=review&sync=true, and makes horizontal scrolling obvious when wrapping is disabled.
+This line is intentionally long so the Disable line wrap control can be tested with a realistic sentence that keeps moving across the editor pane, includes a URL like https://forge.cuthanhcam.workers.dev/tools/diff-checker?mode=review&sync=true, and makes horizontal scrolling obvious when wrapping is disabled.
 
 ## 8. Removed Rollout Plan
 
@@ -179,7 +179,7 @@ The UI reflects edits immediately and does not need a Compare button.
 
 ## 7. Long Line Test
 
-This line is intentionally long so the Disable line wrap control can be tested with a realistic sentence that keeps moving across the editor pane, includes a URL like https://forge.local/tools/diff-checker?mode=review&sync=true&layout=split, and makes horizontal scrolling obvious when wrapping is disabled.
+This line is intentionally long so the Disable line wrap control can be tested with a realistic sentence that keeps moving across the editor pane, includes a URL like https://forge.cuthanhcam.workers.dev/tools/diff-checker?mode=review&sync=true&layout=split, and makes horizontal scrolling obvious when wrapping is disabled.
 
 ## 8. Added Rollout Plan
 

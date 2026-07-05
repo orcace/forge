@@ -6,6 +6,7 @@ export type ToolStatus = "planned" | "available";
 export interface ToolDefinition {
   category: ToolCategory;
   description: string;
+  features: string[];
   icon: LucideIcon;
   id: string;
   keywords: string[];
