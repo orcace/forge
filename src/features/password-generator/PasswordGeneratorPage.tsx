@@ -8,6 +8,8 @@ import {
   RefreshCw,
   SlidersHorizontal,
   TextCursorInput,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { cn } from "@/shared/lib/cn";
 import { Button } from "@/shared/ui/button";
@@ -410,17 +412,33 @@ function SecretOutput({
   onCopy: () => void;
   result: GeneratedSecret;
 }): JSX.Element {
+  const [visible, setVisible] = useState(false);
+
   return (
     <div className="scrollbar-forge min-h-0 flex-1 overflow-auto bg-white p-4">
-      <div className="rounded-lg border border-emerald-100 bg-emerald-50/50 p-4">
+      <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
           <p className="min-w-0 flex-1 break-all font-mono text-[18px] font-semibold leading-8 text-slate-950">
-            {result.value}
+            {visible ? result.value : maskSecret(result.value)}
           </p>
-          <Button className="shrink-0" onClick={onCopy} size="sm" variant="secondary">
-            <Copy aria-hidden="true" className="h-4 w-4" />
-            Copy
-          </Button>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Button
+              onClick={() => setVisible((current) => !current)}
+              size="sm"
+              variant="ghost"
+            >
+              {visible ? (
+                <EyeOff aria-hidden="true" className="h-4 w-4" />
+              ) : (
+                <Eye aria-hidden="true" className="h-4 w-4" />
+              )}
+              {visible ? "Hide" : "Show"}
+            </Button>
+            <Button onClick={onCopy} size="sm" variant="secondary">
+              <Copy aria-hidden="true" className="h-4 w-4" />
+              Copy
+            </Button>
+          </div>
         </div>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -430,6 +448,14 @@ function SecretOutput({
       </div>
     </div>
   );
+}
+
+function maskSecret(secret: string): string {
+  if (secret.length <= 12) {
+    return "*".repeat(secret.length);
+  }
+
+  return `${secret.slice(0, 6)}${"*".repeat(Math.max(12, secret.length - 12))}${secret.slice(-6)}`;
 }
 
 function Metric({ label, value }: { label: string; value: string }): JSX.Element {

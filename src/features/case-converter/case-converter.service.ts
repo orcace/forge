@@ -17,13 +17,18 @@ export function hasCaseConverterInput(input: string): boolean {
 
 export function convertCases(input: string): CaseVariant[] {
   const words = splitWords(input);
+  const lower = words.join(" ");
 
   return [
     { label: "camelCase", value: toCamelCase(words) },
     { label: "PascalCase", value: toPascalCase(words) },
     { label: "snake_case", value: words.join("_") },
     { label: "kebab-case", value: words.join("-") },
+    { label: "dot.case", value: words.join(".") },
+    { label: "path/case", value: words.join("/") },
     { label: "CONSTANT_CASE", value: words.join("_").toUpperCase() },
+    { label: "lowercase", value: lower },
+    { label: "UPPERCASE", value: lower.toUpperCase() },
     { label: "Title Case", value: words.map(capitalize).join(" ") },
     { label: "Sentence case", value: toSentenceCase(words) },
   ];
