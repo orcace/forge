@@ -25,7 +25,7 @@ describe("base64 service", () => {
   });
 
   it("supports Base64URL without padding", () => {
-    const encoded = encodeBase64("https://forge.local/?a=1&b=2", {
+    const encoded = encodeBase64("https://forge.cuthanhcam.workers.dev/?raw=???", {
       padding: false,
       variant: "url",
     });
@@ -33,7 +33,7 @@ describe("base64 service", () => {
     expect(encoded).not.toContain("=");
     expect(encoded).not.toContain("+");
     expect(decodeBase64(encoded, { variant: "url" }).value).toBe(
-      "https://forge.local/?a=1&b=2",
+      "https://forge.cuthanhcam.workers.dev/?raw=???",
     );
     expect(detectBase64Variant(encoded)).toBe("url");
   });
