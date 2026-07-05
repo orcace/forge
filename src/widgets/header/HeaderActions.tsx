@@ -1,13 +1,18 @@
 import type { JSX } from "react";
-import { Github, Search } from "lucide-react";
+import { Github, Keyboard, Search } from "lucide-react";
 import { shortcuts } from "@/core/shortcuts/shortcuts";
 import { Button } from "@/shared/ui/button";
+import { ThemeMenu } from "./ThemeMenu";
 
 interface HeaderActionsProps {
   onOpenCommandPalette: () => void;
+  onOpenShortcuts: () => void;
 }
 
-export function HeaderActions({ onOpenCommandPalette }: HeaderActionsProps): JSX.Element {
+export function HeaderActions({
+  onOpenCommandPalette,
+  onOpenShortcuts,
+}: HeaderActionsProps): JSX.Element {
   return (
     <div className="flex items-center gap-2">
       <Button
@@ -21,10 +26,19 @@ export function HeaderActions({ onOpenCommandPalette }: HeaderActionsProps): JSX
           {shortcuts.commandPalette.label}
         </kbd>
       </Button>
+      <button
+        aria-label="View keyboard shortcuts"
+        className="hidden h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 md:inline-flex"
+        onClick={onOpenShortcuts}
+        type="button"
+      >
+        <Keyboard aria-hidden="true" className="h-4 w-4" />
+      </button>
+      <ThemeMenu />
       <a
-        aria-label="Open Forge repository"
+        aria-label="Open GitHub profile"
         className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-950"
-        href="https://github.com/cuthanhcam/forge"
+        href="https://github.com/cuthanhcam"
         rel="noreferrer"
         target="_blank"
       >

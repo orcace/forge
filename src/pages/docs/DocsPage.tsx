@@ -1,60 +1,117 @@
 import type { JSX } from "react";
-import { BookOpen, FileCode2, GitPullRequest, Map } from "lucide-react";
-import { MainLayout } from "@/layouts/MainLayout";
+import { BookOpen, ChevronRight, Keyboard, Route } from "lucide-react";
+import { Link, NavLink, useParams } from "react-router";
+import { cn } from "@/shared/lib/cn";
+import { DocsMarkdown } from "./DocsMarkdown";
+import { docPages, getDocPage } from "./docs.content";
+import { createToc } from "./docs.toc";
 
-const docs = [
-  {
-    href: "/docs/architecture.md",
-    icon: BookOpen,
-    title: "Architecture",
-    text: "Layering, dependency rules, registry ownership, and product boundaries.",
-  },
-  {
-    href: "/docs/adding-a-new-tool.md",
-    icon: FileCode2,
-    title: "Adding a new tool",
-    text: "Feature folder shape, registry metadata, persistence rules, and tests.",
-  },
-  {
-    href: "/docs/contributing.md",
-    icon: GitPullRequest,
-    title: "Contributing",
-    text: "Local setup, commits, pull request expectations, and review standards.",
-  },
-  {
-    href: "/docs/roadmap.md",
-    icon: Map,
-    title: "Roadmap",
-    text: "Milestones for shell, editors, data tools, utilities, and stable release.",
-  },
-];
+const docIcons: Record<string, typeof BookOpen> = {
+  guides: Route,
+  overview: BookOpen,
+  shortcuts: Keyboard,
+};
 
 export function DocsPage(): JSX.Element {
-  return (
-    <MainLayout
-      eyebrow="Project docs"
-      subtitle="Core documentation is kept small and operational so contributors can understand where changes belong."
-      title="Documentation"
-    >
-      <div className="grid gap-4 md:grid-cols-2">
-        {docs.map((doc) => {
-          const Icon = doc.icon;
+  const { docId } = useParams();
+  const page = getDocPage(docId);
+  const toc = createToc(page.markdown);
 
-          return (
-            <a
-              className="group rounded-lg border border-slate-200 bg-white p-5 transition hover:border-sky-200 hover:shadow-sm"
-              href={doc.href}
-              key={doc.href}
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-slate-100 text-slate-600 group-hover:bg-sky-50 group-hover:text-sky-600">
-                <Icon aria-hidden="true" className="h-5 w-5" />
+  function scrollToHeading(id: string): void {
+    document.getElementById(id)?.scrollIntoView({ block: "start", behavior: "smooth" });
+    window.history.replaceState(null, "", `#${id}`);
+  }
+
+  return (
+    <main className="min-h-0 flex-1 overflow-hidden px-4 pb-5 md:px-6">
+      <div className="mx-auto grid h-full max-w-7xl gap-4 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_220px]">
+        <aside className="hidden min-h-0 border-r border-slate-200 pr-4 pt-5 lg:block">
+          <div className="sticky top-5">
+            <p className="mb-2 px-2 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
+              Documentation
+            </p>
+            <nav className="space-y-1" aria-label="Documentation navigation">
+              {docPages.map((doc) => {
+                const Icon = docIcons[doc.id] ?? BookOpen;
+
+                return (
+                  <NavLink
+                    className={({ isActive }) =>
+                      cn(
+                        "flex items-start gap-2 rounded-md px-2 py-2 text-[13px] font-semibold transition",
+                        isActive || (!docId && doc.id === "overview")
+                          ? "bg-sky-50 text-sky-700 ring-1 ring-sky-100"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
+                      )
+                    }
+                    key={doc.id}
+                    end={doc.id === "overview"}
+                    to={doc.id === "overview" ? "/docs" : `/docs/${doc.id}`}
+                  >
+                    <Icon aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span className="min-w-0">
+                      <span className="block truncate">{doc.title}</span>
+                      <span className="mt-0.5 block text-[11px] font-medium leading-4 text-slate-400">
+                        {doc.description}
+                      </span>
+                    </span>
+                  </NavLink>
+                );
+              })}
+            </nav>
+          </div>
+        </aside>
+
+        <section className="scrollbar-forge min-h-0 overflow-auto py-5">
+          <div className="rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]">
+            <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
+              <div className="flex flex-wrap items-center gap-1 text-[12px] font-semibold">
+                <Link className="text-slate-500 transition hover:text-slate-950" to="/">
+                  Forge
+                </Link>
+                <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
+                <Link
+                  className="text-slate-500 transition hover:text-slate-950"
+                  to="/docs"
+                >
+                  Docs
+                </Link>
+                <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
+                <span className="text-slate-950">{page.title}</span>
               </div>
-              <h2 className="mt-4 text-base font-semibold text-slate-950">{doc.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">{doc.text}</p>
-            </a>
-          );
-        })}
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                {page.description}
+              </p>
+            </div>
+            <div className="px-5 py-6 md:px-8">
+              <DocsMarkdown markdown={page.markdown} />
+            </div>
+          </div>
+        </section>
+
+        <aside className="hidden min-h-0 border-l border-slate-200 pl-4 pt-5 xl:block">
+          <div className="sticky top-5">
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
+              On this page
+            </p>
+            <nav className="space-y-1" aria-label="Table of contents">
+              {toc.map((item) => (
+                <button
+                  className={cn(
+                    "block w-full rounded-md px-2 py-1.5 text-left text-[12px] font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-950",
+                    item.level === 3 && "pl-5 font-medium",
+                  )}
+                  key={item.id}
+                  onClick={() => scrollToHeading(item.id)}
+                  type="button"
+                >
+                  {item.title}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </aside>
       </div>
-    </MainLayout>
+    </main>
   );
 }

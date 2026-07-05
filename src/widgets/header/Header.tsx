@@ -6,9 +6,13 @@ import { HeaderActions } from "./HeaderActions";
 
 interface HeaderProps {
   onOpenCommandPalette: () => void;
+  onOpenShortcuts: () => void;
 }
 
-export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
+export function Header({
+  onOpenCommandPalette,
+  onOpenShortcuts,
+}: HeaderProps): JSX.Element {
   const location = useLocation();
   const headerMeta = getHeaderMeta(location.pathname);
   const HeaderIcon = headerMeta.icon;
@@ -32,7 +36,10 @@ export function Header({ onOpenCommandPalette }: HeaderProps): JSX.Element {
           </h1>
         </div>
       </div>
-      <HeaderActions onOpenCommandPalette={onOpenCommandPalette} />
+      <HeaderActions
+        onOpenCommandPalette={onOpenCommandPalette}
+        onOpenShortcuts={onOpenShortcuts}
+      />
     </header>
   );
 }
@@ -49,8 +56,24 @@ function getHeaderMeta(pathname: string): {
     return { title: "Settings" };
   }
 
+  if (pathname === "/privacy") {
+    return { title: "Privacy" };
+  }
+
+  if (pathname === "/terms") {
+    return { title: "Terms of Use" };
+  }
+
   if (pathname === "/docs") {
     return { title: "Documentation" };
+  }
+
+  if (pathname.startsWith("/docs/")) {
+    return { title: "Documentation" };
+  }
+
+  if (pathname.startsWith("/support")) {
+    return { title: "Support" };
   }
 
   const toolId = pathname.match(/^\/tools\/([^/]+)$/)?.[1];

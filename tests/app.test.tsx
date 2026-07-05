@@ -9,10 +9,12 @@ describe("App", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "Developer tools that behave like one product",
+        name: /Developer tools without the tab drift\./,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "JSON Formatter" })).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("link", { name: "JSON Formatter" }).length,
+    ).toBeGreaterThan(0);
   });
 
   it("opens the command palette with the keyboard shortcut", async () => {
@@ -24,5 +26,29 @@ describe("App", () => {
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: "Search tools" })).toHaveFocus();
+  });
+
+  it("opens the keyboard shortcuts dialog", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(screen.getByRole("button", { name: "View keyboard shortcuts" }));
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Keyboard shortcuts" }),
+    ).toBeInTheDocument();
+  });
+
+  it("closes the keyboard shortcuts dialog with escape", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(screen.getByRole("button", { name: "View keyboard shortcuts" }));
+    await user.keyboard("{Escape}");
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

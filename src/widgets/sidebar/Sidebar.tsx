@@ -4,16 +4,16 @@ import { Link, NavLink } from "react-router";
 import {
   AlertTriangle,
   BookOpen,
-  GraduationCap,
   HeartHandshake,
   Keyboard,
   MessageCircle,
-  Newspaper,
   HelpCircle,
   PanelLeftClose,
   PanelLeftOpen,
   Route,
+  ScrollText,
   Settings,
+  ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
 import { toolCategoryDefinitions } from "@/core/registry/tool.categories";
@@ -22,7 +22,11 @@ import { useWorkspaceStore } from "@/core/workspace/workspace.store";
 import { cn } from "@/shared/lib/cn";
 import { SidebarGroup } from "./SidebarGroup";
 
-export function Sidebar(): JSX.Element {
+interface SidebarProps {
+  onOpenShortcuts: () => void;
+}
+
+export function Sidebar({ onOpenShortcuts }: SidebarProps): JSX.Element {
   const [helpOpen, setHelpOpen] = useState(false);
   const helpRef = useRef<HTMLDivElement>(null);
   const sidebarCollapsed = useWorkspaceStore((state) => state.sidebarCollapsed);
@@ -58,16 +62,20 @@ export function Sidebar(): JSX.Element {
     >
       <div
         className={cn(
-          "flex h-14 items-center",
+          "flex h-14 items-center border-b border-slate-200",
           sidebarCollapsed ? "justify-center px-2" : "gap-2.5 px-3",
         )}
       >
         <Link
           aria-label="Go to home"
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition hover:bg-slate-100"
+          className="group flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-slate-950 ring-1 ring-slate-900/10 transition hover:bg-slate-800 dark:bg-white/10 dark:ring-white/10 dark:hover:bg-white/15 dark:hover:ring-white/20"
           to="/"
         >
-          <img alt="" className="h-6 w-6 object-contain" src="/favicon.svg" />
+          <img
+            alt=""
+            className="h-5.5 w-5.5 object-contain opacity-95 drop-shadow-[0_1px_10px_rgba(255,255,255,0.1)] transition group-hover:opacity-100"
+            src="/forge-white.svg"
+          />
         </Link>
         <div className={cn(sidebarCollapsed && "sr-only")}>
           <p className="text-[14px] font-bold leading-5 text-slate-950">Forge</p>
@@ -117,9 +125,24 @@ export function Sidebar(): JSX.Element {
               <p className="px-2 pb-1 text-[11px] font-semibold text-slate-500">
                 Support
               </p>
-              <HelpMenuItem icon={MessageCircle} label="Ask a question" />
-              <HelpMenuItem icon={AlertTriangle} label="Report an issue" />
-              <HelpMenuItem icon={HeartHandshake} label="Share feedback" />
+              <HelpMenuItem
+                icon={MessageCircle}
+                label="Ask a question"
+                onSelect={() => setHelpOpen(false)}
+                to="/support/ask"
+              />
+              <HelpMenuItem
+                icon={AlertTriangle}
+                label="Report an issue"
+                onSelect={() => setHelpOpen(false)}
+                href="https://github.com/orcace/forge/issues"
+              />
+              <HelpMenuItem
+                icon={HeartHandshake}
+                label="Share feedback"
+                onSelect={() => setHelpOpen(false)}
+                to="/support/feedback"
+              />
             </div>
             <div className="border-t border-slate-100 p-2">
               <p className="px-2 pb-1 text-[11px] font-semibold text-slate-500">
@@ -131,10 +154,35 @@ export function Sidebar(): JSX.Element {
                 onSelect={() => setHelpOpen(false)}
                 to="/docs"
               />
-              <HelpMenuItem icon={Route} label="Guides" />
-              <HelpMenuItem icon={GraduationCap} label="Academy" />
-              <HelpMenuItem icon={Newspaper} label="Changelog" />
-              <HelpMenuItem icon={Keyboard} label="Keyboard shortcuts" />
+              <HelpMenuItem
+                icon={Route}
+                label="Guides"
+                onSelect={() => setHelpOpen(false)}
+                to="/docs/guides"
+              />
+              <HelpMenuItem
+                icon={Keyboard}
+                label="Keyboard shortcuts"
+                onSelect={() => {
+                  setHelpOpen(false);
+                  onOpenShortcuts();
+                }}
+              />
+            </div>
+            <div className="border-t border-slate-100 p-2">
+              <p className="px-2 pb-1 text-[11px] font-semibold text-slate-500">Trust</p>
+              <HelpMenuItem
+                icon={ShieldCheck}
+                label="Privacy"
+                onSelect={() => setHelpOpen(false)}
+                to="/privacy"
+              />
+              <HelpMenuItem
+                icon={ScrollText}
+                label="Terms"
+                onSelect={() => setHelpOpen(false)}
+                to="/terms"
+              />
             </div>
           </div>
         ) : null}
@@ -205,12 +253,14 @@ export function Sidebar(): JSX.Element {
 
 interface HelpMenuItemProps {
   icon: LucideIcon;
+  href?: string;
   label: string;
   onSelect?: () => void;
   to?: string;
 }
 
 function HelpMenuItem({
+  href,
   icon: Icon,
   label,
   onSelect,
@@ -225,6 +275,21 @@ function HelpMenuItem({
         <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
         <span>{label}</span>
       </NavLink>
+    );
+  }
+
+  if (href) {
+    return (
+      <a
+        className={className}
+        href={href}
+        onClick={onSelect}
+        rel="noreferrer"
+        target="_blank"
+      >
+        <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
+        <span>{label}</span>
+      </a>
     );
   }
 

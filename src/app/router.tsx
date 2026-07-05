@@ -3,8 +3,10 @@ import { Route, Routes } from "react-router";
 import { AppLayout } from "@/layouts/AppLayout";
 import { DocsPage } from "@/pages/docs/DocsPage";
 import { HomePage } from "@/pages/home/HomePage";
+import { LegalPage } from "@/pages/legal/LegalPage";
 import { NotFoundPage } from "@/pages/not-found/NotFoundPage";
 import { SettingsPage } from "@/pages/settings/SettingsPage";
+import { SupportPage } from "@/pages/support/SupportPage";
 import { ToolPlaceholderPage } from "@/pages/tools/ToolPlaceholderPage";
 
 export function AppRouter(): JSX.Element {
@@ -13,7 +15,12 @@ export function AppRouter(): JSX.Element {
       <Route element={<AppLayout />}>
         <Route element={<HomePage />} index />
         <Route element={<DocsPage />} path="docs" />
+        <Route element={<DocsPage />} path="docs/:docId" />
+        <Route element={<LegalPage />} path="privacy" />
+        <Route element={<LegalPage />} path="terms" />
         <Route element={<SettingsPage />} path="settings" />
+        <Route element={<SupportPage />} path="support" />
+        <Route element={<SupportPage />} path="support/:mode" />
         <Route element={<ToolPlaceholderPage />} path="tools/:toolId" />
         <Route element={<NotFoundPage />} path="*" />
       </Route>

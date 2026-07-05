@@ -9,10 +9,10 @@
   "homepage": "https://github.com/cuthanhcam/forge#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cuthanhcam/forge.git"
+    "url": "git+https://github.com/orcace/forge.git"
   },
   "bugs": {
-    "url": "https://github.com/cuthanhcam/forge/issues"
+    "url": "https://github.com/orcace/forge/issues"
   },
   "keywords": [
     "developer-tools",
