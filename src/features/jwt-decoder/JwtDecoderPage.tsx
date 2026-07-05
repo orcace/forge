@@ -362,55 +362,21 @@ function TokenInput({
   onChange: (value: string) => void;
   value: string;
 }): JSX.Element {
-  const segments = value.split(".");
-
   return (
-    <div className="relative min-h-0 flex-1 overflow-hidden bg-white">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden p-4 font-mono text-[13px] leading-6"
-      >
-        <span
-          className={cn(
-            "block",
-            lineWrap ? "whitespace-pre-wrap break-all" : "w-max whitespace-pre",
-          )}
-        >
-          {segments.map((segment, index) => (
-            <span key={`${segment}-${index}`}>
-              <span
-                className={
-                  index === 0
-                    ? "text-sky-700"
-                    : index === 1
-                      ? "text-emerald-700"
-                      : "text-violet-700"
-                }
-              >
-                {segment}
-              </span>
-              {index < segments.length - 1 ? (
-                <span className="text-slate-400">.</span>
-              ) : null}
-            </span>
-          ))}
-        </span>
-      </div>
-      <label className="relative block h-full min-h-0 bg-transparent">
-        <span className="sr-only">JWT input</span>
-        <textarea
-          className={cn(
-            "scrollbar-forge h-full min-h-0 w-full resize-none border-0 bg-transparent p-4 font-mono text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400 selection:bg-sky-200/80 selection:text-slate-950",
-            lineWrap ? "overflow-auto" : "overflow-auto whitespace-pre",
-          )}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder="Paste a JWT..."
-          spellCheck={false}
-          value={value}
-          wrap={lineWrap ? "soft" : "off"}
-        />
-      </label>
-    </div>
+    <label className="block min-h-0 flex-1 bg-white">
+      <span className="sr-only">JWT input</span>
+      <textarea
+        className={cn(
+          "scrollbar-forge h-full min-h-0 w-full resize-none border-0 bg-white p-4 font-mono text-[13px] leading-6 text-slate-950 outline-none placeholder:text-slate-400 selection:bg-sky-200/80 selection:text-slate-950",
+          lineWrap ? "overflow-auto break-all" : "overflow-auto whitespace-pre",
+        )}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder="Paste a JWT..."
+        spellCheck={false}
+        value={value}
+        wrap={lineWrap ? "soft" : "off"}
+      />
+    </label>
   );
 }
 
