@@ -21,7 +21,7 @@ export function CommandPalette({
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  const results = useMemo(() => searchTools(toolRegistry, query).slice(0, 8), [query]);
+  const results = useMemo(() => searchTools(toolRegistry, query), [query]);
 
   useEffect(() => {
     if (!open) {
@@ -110,7 +110,12 @@ export function CommandPalette({
           </button>
         </div>
 
-        <div className="scrollbar-forge max-h-[28rem] overflow-y-auto p-2">
+        <div className="flex items-center justify-between border-b border-slate-100 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+          <span>{query ? `${results.length} matches` : "All Forge tools"}</span>
+          <span>{toolRegistry.length} tools</span>
+        </div>
+
+        <div className="scrollbar-forge max-h-[min(34rem,calc(100vh-11rem))] overflow-y-auto p-2">
           {results.length > 0 ? (
             results.map((result, index) => (
               <CommandPaletteItem
