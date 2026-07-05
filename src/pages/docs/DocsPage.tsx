@@ -23,8 +23,8 @@ export function DocsPage(): JSX.Element {
   }
 
   return (
-    <main className="min-h-0 flex-1 overflow-hidden px-4 pb-5 md:px-6">
-      <div className="mx-auto grid h-full max-w-7xl gap-4 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_220px]">
+    <main className="min-h-0 min-w-0 flex-1 overflow-hidden px-4 pb-5 md:px-6">
+      <div className="mx-auto grid h-full min-w-0 max-w-full gap-4 lg:grid-cols-[240px_minmax(0,1fr)] xl:max-w-7xl xl:grid-cols-[240px_minmax(0,1fr)_220px]">
         <aside className="hidden min-h-0 border-r border-slate-200 pr-4 pt-5 lg:block">
           <div className="sticky top-5">
             <p className="mb-2 px-2 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-400">
@@ -62,8 +62,8 @@ export function DocsPage(): JSX.Element {
           </div>
         </aside>
 
-        <section className="scrollbar-forge min-h-0 overflow-auto py-5">
-          <div className="rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]">
+        <section className="scrollbar-forge min-h-0 min-w-0 max-w-full overflow-auto py-5">
+          <div className="min-w-0 max-w-full rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]">
             <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
               <div className="flex flex-wrap items-center gap-1 text-[12px] font-semibold">
                 <Link className="text-slate-500 transition hover:text-slate-950" to="/">
@@ -79,7 +79,7 @@ export function DocsPage(): JSX.Element {
                 <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
                 <span className="text-slate-950">{page.title}</span>
               </div>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+              <p className="mt-2 max-w-[calc(100vw-5.5rem)] break-words text-sm leading-6 text-slate-600 md:max-w-2xl">
                 {page.description}
               </p>
             </div>
