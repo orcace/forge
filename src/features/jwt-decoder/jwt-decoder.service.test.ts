@@ -9,7 +9,7 @@ import {
 } from "./jwt-decoder.service";
 
 const hs256Token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzQyIiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmZvcmdlLmxvY2FsIiwiYXVkIjoiZm9yZ2UtYXBpIiwiaWF0IjoxNzE5ODAwMDAwLCJuYmYiOjE3MTk4MDAwMDAsImV4cCI6MjUzMjQwMDAwMH0.I5QWq5bQ8YPsUn740ax_QE1XVNXAHf171NukCN5PEN8";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzQyIiwiaXNzIjoiaHR0cHM6Ly9mb3JnZS5jdXRoYW5oY2FtLndvcmtlcnMuZGV2LyIsImF1ZCI6ImZvcmdlLWFwaSIsImlhdCI6MTcxOTgwMDAwMCwibmJmIjoxNzE5ODAwMDAwLCJleHAiOjI1MzI0MDAwMDB9.SUrnuomk6VgD5PEcoIDLjxFP2w37UBeegzYKYZygEKI";
 
 describe("jwt-decoder service", () => {
   it("normalizes user input", () => {
