@@ -144,6 +144,7 @@ body {
   color: rgb(15 23 42);
   font-size: 14px;
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 .forge-markdown > *:first-child {
@@ -152,6 +153,10 @@ body {
 
 .forge-markdown > *:last-child {
   margin-bottom: 0;
+}
+
+.forge-markdown * {
+  max-width: 100%;
 }
 
 .forge-markdown h1,
@@ -333,6 +338,18 @@ body {
 .docs-markdown table {
   display: block;
   overflow-x: auto;
+}
+
+@media (max-width: 640px) {
+  .home-hero-copy {
+    max-width: calc(100vw - 2rem);
+  }
+
+  .docs-markdown p,
+  .docs-markdown li,
+  .docs-markdown blockquote {
+    max-width: calc(100vw - 5.5rem);
+  }
 }
 
 .forge-markdown .katex-display {

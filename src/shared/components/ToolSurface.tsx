@@ -54,7 +54,7 @@ export function ToolSurface({
   return (
     <section
       className={cn(
-        "flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]",
+        "flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-950/[0.03]",
         compact && "p-5",
       )}
     >
@@ -65,9 +65,11 @@ export function ToolSurface({
 
 export function ToolToolbar({ left, right }: ToolToolbarProps): JSX.Element {
   return (
-    <div className="flex min-h-12 shrink-0 flex-wrap items-center gap-2 border-b border-slate-100 bg-white px-3 py-1.5">
-      <div className="flex min-w-0 flex-1 items-center gap-2">{left}</div>
-      <div className="flex flex-wrap items-center justify-end gap-1">{right}</div>
+    <div className="flex min-h-12 shrink-0 flex-wrap items-center gap-2 border-b border-slate-100 bg-white px-2.5 py-1.5 2xl:px-3">
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 2xl:gap-2">
+        {left}
+      </div>
+      <div className="flex min-w-0 flex-wrap items-center justify-end gap-1">{right}</div>
     </div>
   );
 }
@@ -101,7 +103,7 @@ export function PaneHeader({
   return (
     <div
       className={cn(
-        "flex min-h-10 shrink-0 items-center justify-between gap-2 border-b px-4",
+        "flex min-h-10 shrink-0 flex-wrap items-center justify-between gap-2 border-b px-3 2xl:px-4",
         tones[tone],
       )}
     >
