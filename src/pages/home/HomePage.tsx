@@ -1,113 +1,157 @@
 import type { JSX } from "react";
-import { ArrowRight, Boxes, Cpu, Database, Shield } from "lucide-react";
-import { Link } from "react-router";
-import { toolCategoryDefinitions } from "@/core/registry/tool.categories";
-import { toolRegistry } from "@/core/registry/tool.registry";
-import { MainLayout } from "@/layouts/MainLayout";
-import { Badge } from "@/shared/ui/badge";
+import { ArrowDown, Check, Minus } from "lucide-react";
 
-const highlights = [
+const notes = [
   {
-    icon: Boxes,
-    label: "Registry-driven",
-    value: "Single source of truth for tools",
+    eyebrow: "Context",
+    text: "Small developer tasks rarely deserve a full context switch, but they happen all day.",
+    title: "A payload arrives messy.",
   },
   {
-    icon: Shield,
-    label: "Private by default",
-    value: "Core workflows run locally",
+    eyebrow: "Workspace",
+    text: "Forge keeps previews, formatters, encoders, decoders, and generators in one calm surface.",
+    title: "The tool stays close.",
   },
   {
-    icon: Cpu,
-    label: "Fast foundation",
-    value: "Vite, strict TypeScript, CI",
+    eyebrow: "Output",
+    text: "The final value is easy to inspect, copy, export, and bring back to the work that mattered.",
+    title: "You leave with the result.",
   },
+];
+
+const before = [
+  "One tab for formatting.",
+  "Another for decoding.",
+  "A third for comparing text.",
+  "Different buttons, colors, shortcuts, and trust models.",
+];
+
+const after = [
+  "One navigation model.",
+  "One toolbar language.",
+  "One copy/export pattern.",
+  "Local-first workflows for sensitive text.",
 ];
 
 export function HomePage(): JSX.Element {
   return (
-    <MainLayout
-      eyebrow="Forge foundation"
-      subtitle="A focused workstation for everyday developer utilities, designed around a tool registry and local-first workflows."
-      title="Developer tools that behave like one product"
-    >
-      <section className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
-        <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
-          <div className="border-b border-slate-200 bg-gradient-soft px-6 py-8">
-            <Badge tone="accent">{toolRegistry.length} planned tools</Badge>
-            <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-normal text-slate-950">
-              Build, inspect, convert, and validate without leaving the browser.
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-              The first milestone establishes navigation, registry metadata, and a
-              polished white-first interface before deeper tool logic is added.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-gradient-brand px-4 text-sm font-medium text-white shadow-sm shadow-sky-500/20 transition hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                to="/tools/json-formatter"
-              >
-                Open JSON Formatter
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </Link>
-              <Link
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-border bg-white px-4 text-sm font-medium text-foreground shadow-sm transition hover:border-sky-200 hover:bg-sky-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                to="/docs"
-              >
-                Read project docs
-              </Link>
+    <main className="scrollbar-forge min-h-0 flex-1 overflow-auto bg-[#fbfaf8] px-4 pb-10 text-slate-950 md:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <section className="min-h-[calc(100vh-4.5rem)] py-10">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-4 font-mono text-[11px] uppercase tracking-[0.16em] text-slate-400">
+            <span>Forge / Developer Workstation</span>
+            <span>Local-first tools</span>
+          </div>
+
+          <div className="grid gap-10 py-14 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-end">
+            <div>
+              <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                For the in-between work
+              </p>
+              <h1 className="mt-5 max-w-5xl text-[clamp(3.75rem,9vw,8.8rem)] font-black leading-[0.88] tracking-normal text-slate-950">
+                Developer tools
+                <span className="block bg-brand-gradient bg-clip-text text-transparent">
+                  without the tab drift.
+                </span>
+              </h1>
+            </div>
+
+            <div className="border-l border-slate-200 pl-5">
+              <p className="text-[15px] leading-7 text-slate-600">
+                Forge is the quiet place between writing code and shipping it: the moment
+                you need to inspect a token, shape JSON, compare text, generate a secret,
+                test a regex, or turn rough input into something usable.
+              </p>
+              <div className="mt-6 flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                <ArrowDown aria-hidden="true" className="h-4 w-4" />
+                Scroll the story
+              </div>
             </div>
           </div>
 
-          <div className="grid gap-px bg-slate-200 sm:grid-cols-3">
-            {highlights.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <div className="bg-white p-5" key={item.label}>
-                  <Icon aria-hidden="true" className="h-5 w-5 text-sky-500" />
-                  <h3 className="mt-3 text-sm font-semibold text-slate-950">
-                    {item.label}
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-500">{item.value}</p>
-                </div>
-              );
-            })}
+          <div className="grid gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 md:grid-cols-3">
+            {notes.map((note) => (
+              <article className="bg-white/80 p-5" key={note.title}>
+                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                  {note.eyebrow}
+                </p>
+                <h2 className="mt-4 text-xl font-semibold tracking-normal text-slate-950">
+                  {note.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{note.text}</p>
+              </article>
+            ))}
           </div>
-        </div>
+        </section>
 
-        <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <div className="flex items-center gap-2">
-            <Database aria-hidden="true" className="h-5 w-5 text-purple-500" />
-            <h2 className="text-base font-semibold text-slate-950">Categories</h2>
-          </div>
-          <div className="mt-5 space-y-4">
-            {toolCategoryDefinitions.map((category) => {
-              const Icon = category.icon;
-              const count = toolRegistry.filter(
-                (tool) => tool.category === category.id,
-              ).length;
+        <section className="grid gap-4 pb-10 lg:grid-cols-2">
+          <ComparisonCard
+            items={before}
+            marker="minus"
+            title="Before"
+            subtitle="A chain of unrelated pages"
+          />
+          <ComparisonCard
+            items={after}
+            marker="check"
+            title="With Forge"
+            subtitle="One product language"
+          />
+        </section>
 
-              return (
-                <div className="flex gap-3" key={category.id}>
-                  <div className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 text-slate-600">
-                    <Icon aria-hidden="true" className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-slate-950">{category.id}</p>
-                      <span className="text-xs text-slate-400">{count}</span>
-                    </div>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">
-                      {category.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+        <section className="border-t border-slate-200 py-10">
+          <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
+            <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+              Design language
+            </p>
+            <div>
+              <h2 className="text-3xl font-semibold tracking-normal text-slate-950">
+                The interface is intentionally quiet because the input is usually noisy.
+              </h2>
+              <p className="mt-4 max-w-3xl text-[15px] leading-7 text-slate-600">
+                Tool screens use dense panes, restrained borders, clear copy actions, and
+                predictable controls. The home page is the front door; the tools are the
+                workshop. Both should feel like they belong to the same place.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
-    </MainLayout>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+function ComparisonCard({
+  items,
+  marker,
+  subtitle,
+  title,
+}: {
+  items: string[];
+  marker: "check" | "minus";
+  subtitle: string;
+  title: string;
+}): JSX.Element {
+  const Icon = marker === "check" ? Check : Minus;
+
+  return (
+    <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-950/[0.03]">
+      <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">
+        {subtitle}
+      </p>
+      <h2 className="mt-3 text-2xl font-semibold tracking-normal text-slate-950">
+        {title}
+      </h2>
+      <div className="mt-5 grid gap-3">
+        {items.map((item) => (
+          <div className="flex gap-3 text-[14px] font-medium text-slate-700" key={item}>
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+              <Icon aria-hidden="true" className="h-3.5 w-3.5" />
+            </span>
+            {item}
+          </div>
+        ))}
+      </div>
+    </article>
   );
 }

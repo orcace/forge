@@ -4,11 +4,9 @@ import { Link, NavLink } from "react-router";
 import {
   AlertTriangle,
   BookOpen,
-  GraduationCap,
   HeartHandshake,
   Keyboard,
   MessageCircle,
-  Newspaper,
   HelpCircle,
   PanelLeftClose,
   PanelLeftOpen,
@@ -22,7 +20,11 @@ import { useWorkspaceStore } from "@/core/workspace/workspace.store";
 import { cn } from "@/shared/lib/cn";
 import { SidebarGroup } from "./SidebarGroup";
 
-export function Sidebar(): JSX.Element {
+interface SidebarProps {
+  onOpenShortcuts: () => void;
+}
+
+export function Sidebar({ onOpenShortcuts }: SidebarProps): JSX.Element {
   const [helpOpen, setHelpOpen] = useState(false);
   const helpRef = useRef<HTMLDivElement>(null);
   const sidebarCollapsed = useWorkspaceStore((state) => state.sidebarCollapsed);
@@ -117,9 +119,24 @@ export function Sidebar(): JSX.Element {
               <p className="px-2 pb-1 text-[11px] font-semibold text-slate-500">
                 Support
               </p>
-              <HelpMenuItem icon={MessageCircle} label="Ask a question" />
-              <HelpMenuItem icon={AlertTriangle} label="Report an issue" />
-              <HelpMenuItem icon={HeartHandshake} label="Share feedback" />
+              <HelpMenuItem
+                icon={MessageCircle}
+                label="Ask a question"
+                onSelect={() => setHelpOpen(false)}
+                to="/support/ask"
+              />
+              <HelpMenuItem
+                icon={AlertTriangle}
+                label="Report an issue"
+                onSelect={() => setHelpOpen(false)}
+                href="https://github.com/orcace/forge/issues"
+              />
+              <HelpMenuItem
+                icon={HeartHandshake}
+                label="Share feedback"
+                onSelect={() => setHelpOpen(false)}
+                to="/support/feedback"
+              />
             </div>
             <div className="border-t border-slate-100 p-2">
               <p className="px-2 pb-1 text-[11px] font-semibold text-slate-500">
@@ -131,10 +148,20 @@ export function Sidebar(): JSX.Element {
                 onSelect={() => setHelpOpen(false)}
                 to="/docs"
               />
-              <HelpMenuItem icon={Route} label="Guides" />
-              <HelpMenuItem icon={GraduationCap} label="Academy" />
-              <HelpMenuItem icon={Newspaper} label="Changelog" />
-              <HelpMenuItem icon={Keyboard} label="Keyboard shortcuts" />
+              <HelpMenuItem
+                icon={Route}
+                label="Guides"
+                onSelect={() => setHelpOpen(false)}
+                to="/docs/guides"
+              />
+              <HelpMenuItem
+                icon={Keyboard}
+                label="Keyboard shortcuts"
+                onSelect={() => {
+                  setHelpOpen(false);
+                  onOpenShortcuts();
+                }}
+              />
             </div>
           </div>
         ) : null}
@@ -205,12 +232,14 @@ export function Sidebar(): JSX.Element {
 
 interface HelpMenuItemProps {
   icon: LucideIcon;
+  href?: string;
   label: string;
   onSelect?: () => void;
   to?: string;
 }
 
 function HelpMenuItem({
+  href,
   icon: Icon,
   label,
   onSelect,
@@ -225,6 +254,21 @@ function HelpMenuItem({
         <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
         <span>{label}</span>
       </NavLink>
+    );
+  }
+
+  if (href) {
+    return (
+      <a
+        className={className}
+        href={href}
+        onClick={onSelect}
+        rel="noreferrer"
+        target="_blank"
+      >
+        <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
+        <span>{label}</span>
+      </a>
     );
   }
 
