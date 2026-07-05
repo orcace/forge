@@ -30,7 +30,7 @@ import {
 type ResultView = "text" | "breakdown";
 
 const sampleUrl =
-  "https://forge.local/tools/url-encoder?name=Markdown Preview&redirect=/tools/json-yaml&lang=vi-VN#result panel";
+  "https://forge.cuthanhcam.workers.dev/tools/url-encoder?name=Markdown Preview&redirect=/tools/json-yaml&lang=vi-VN#result panel";
 
 export function UrlEncoderPage(): JSX.Element {
   const [mode, setMode] = useState<UrlMode>("encode");
