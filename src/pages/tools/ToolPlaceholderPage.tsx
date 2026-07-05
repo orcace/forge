@@ -11,6 +11,7 @@ import { HtmlPreviewPage } from "@/features/html-preview";
 import { JsonToolsPage } from "@/features/json";
 import { JsonYamlPage } from "@/features/json-yaml";
 import { JwtDecoderPage } from "@/features/jwt-decoder";
+import { JwtSecretPage } from "@/features/jwt-secret";
 import { MarkdownPreviewPage } from "@/features/markdown-preview";
 import { PasswordGeneratorPage } from "@/features/password-generator";
 import { RegexTesterPage } from "@/features/regex-tester";
@@ -68,6 +69,7 @@ export function ToolPlaceholderPage(): JSX.Element {
     "json-formatter": <JsonToolsPage />,
     "json-yaml": <JsonYamlPage />,
     "jwt-decoder": <JwtDecoderPage />,
+    "jwt-secret": <JwtSecretPage />,
     "password-generator": <PasswordGeneratorPage />,
     "regex-tester": <RegexTesterPage />,
     slugify: <SlugifyPage />,
