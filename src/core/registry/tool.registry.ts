@@ -130,6 +130,17 @@ export const toolRegistry: ToolDefinition[] = [
     status: "available",
   },
   {
+    id: "jwt-secret",
+    name: "JWT Secret Generator",
+    category: "Crypto",
+    description: "Generate secure HS256, HS384, and HS512 JWT secrets locally.",
+    keywords: ["jwt", "secret", "hs256", "hs512", "hmac"],
+    icon: ShieldCheck,
+    persist: false,
+    route: "/tools/jwt-secret",
+    status: "available",
+  },
+  {
     id: "uuid",
     name: "UUID Generator",
     category: "Utilities",
