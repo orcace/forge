@@ -56,6 +56,14 @@ function getHeaderMeta(pathname: string): {
     return { title: "Settings" };
   }
 
+  if (pathname === "/privacy") {
+    return { title: "Privacy" };
+  }
+
+  if (pathname === "/terms") {
+    return { title: "Terms of Use" };
+  }
+
   if (pathname === "/docs") {
     return { title: "Documentation" };
   }

@@ -110,7 +110,7 @@ export function CommandPalette({
           </button>
         </div>
 
-        <div className="max-h-[28rem] overflow-y-auto p-2">
+        <div className="scrollbar-forge max-h-[28rem] overflow-y-auto p-2">
           {results.length > 0 ? (
             results.map((result, index) => (
               <CommandPaletteItem

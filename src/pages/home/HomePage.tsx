@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import { ArrowDown, Check, Minus } from "lucide-react";
+import { Link } from "react-router";
 
 const notes = [
   {
@@ -116,6 +117,26 @@ export function HomePage(): JSX.Element {
             </div>
           </div>
         </section>
+
+        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 py-6 text-[12px] font-semibold text-slate-500">
+          <span>Forge is local-first by design.</span>
+          <div className="flex items-center gap-3">
+            <Link className="transition hover:text-slate-950" to="/privacy">
+              Privacy
+            </Link>
+            <Link className="transition hover:text-slate-950" to="/terms">
+              Terms
+            </Link>
+            <a
+              className="transition hover:text-slate-950"
+              href="https://github.com/orcace/forge/issues"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Issues
+            </a>
+          </div>
+        </footer>
       </div>
     </main>
   );

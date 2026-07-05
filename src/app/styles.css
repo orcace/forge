@@ -406,3 +406,360 @@ body {
   background: rgb(241 245 249);
   color: rgb(15 23 42);
 }
+
+.dark {
+  --background: 264 32% 6%;
+  --foreground: 255 33% 96%;
+  --card: 262 25% 10%;
+  --card-foreground: 255 33% 96%;
+  --muted-foreground: 260 13% 70%;
+  --border: 263 18% 22%;
+  --forge-dark-bg: #09070f;
+  --forge-dark-panel: #11101a;
+  --forge-dark-panel-2: #171420;
+  --forge-dark-panel-3: #20182b;
+  --forge-dark-border: #31283f;
+  --forge-dark-border-soft: #251e31;
+  --forge-dark-text: #f6f0ff;
+  --forge-dark-muted: #b8adc8;
+  --forge-dark-subtle: #867a98;
+  --forge-dark-pink: #ff4fd8;
+  --forge-dark-purple: #a855f7;
+  --forge-dark-blue: #60a5fa;
+  --forge-dark-green: #5ee0ad;
+  --forge-dark-amber: #f6c76a;
+  --forge-dark-rose: #ff7a97;
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at 16% 0%, rgb(227 65 255 / 0.16), transparent 34rem),
+    radial-gradient(circle at 88% 10%, rgb(106 75 255 / 0.14), transparent 30rem),
+    linear-gradient(180deg, #0b0710 0%, #09070f 42%, #08070d 100%);
+  color: var(--forge-dark-text);
+}
+
+.dark .bg-slate-50,
+.dark .bg-slate-50\/70 {
+  background-color: #0d0b14 !important;
+}
+
+.dark .bg-white,
+.dark .bg-white\/70,
+.dark .bg-white\/80,
+.dark .bg-white\/90 {
+  background-color: rgb(17 16 26 / 0.94) !important;
+}
+
+.dark .bg-slate-100,
+.dark .bg-slate-100\/70 {
+  background-color: var(--forge-dark-panel-2) !important;
+}
+
+.dark .bg-slate-200,
+.dark .bg-slate-200\/80 {
+  background-color: var(--forge-dark-border) !important;
+}
+
+.dark .bg-sky-50,
+.dark .bg-sky-50\/50,
+.dark .bg-sky-50\/70 {
+  background-color: rgb(96 165 250 / 0.12) !important;
+}
+
+.dark .bg-emerald-50,
+.dark .bg-emerald-50\/50,
+.dark .bg-emerald-50\/70 {
+  background-color: rgb(94 224 173 / 0.12) !important;
+}
+
+.dark .bg-violet-50,
+.dark .bg-violet-50\/50,
+.dark .bg-violet-50\/70 {
+  background-color: rgb(168 85 247 / 0.15) !important;
+}
+
+.dark .bg-rose-50,
+.dark .bg-red-50 {
+  background-color: rgb(255 122 151 / 0.13) !important;
+}
+
+.dark .bg-red-50\/80 {
+  background-color: rgb(255 122 151 / 0.18) !important;
+}
+
+.dark .bg-red-200\/80 {
+  background-color: rgb(255 180 195 / 0.82) !important;
+}
+
+.dark .bg-emerald-200\/80 {
+  background-color: rgb(175 255 220 / 0.82) !important;
+}
+
+.dark .bg-amber-50,
+.dark .bg-orange-50 {
+  background-color: rgb(246 199 106 / 0.13) !important;
+}
+
+.dark .bg-purple-50,
+.dark .bg-fuchsia-50,
+.dark .bg-pink-50 {
+  background-color: rgb(255 79 216 / 0.13) !important;
+}
+
+.dark .bg-gradient-soft {
+  background:
+    linear-gradient(135deg, rgb(255 79 216 / 0.14), rgb(96 165 250 / 0.1)),
+    linear-gradient(0deg, rgb(17 16 26 / 0.92), rgb(17 16 26 / 0.92));
+}
+
+.dark .bg-\[\#fbfaf8\] {
+  background:
+    radial-gradient(circle at 16% 5%, rgb(255 79 216 / 0.12), transparent 34rem),
+    radial-gradient(circle at 82% 18%, rgb(106 75 255 / 0.12), transparent 28rem),
+    linear-gradient(180deg, #0b0710 0%, #09070f 100%) !important;
+}
+
+.dark [class*="bg-[repeating-linear-gradient"] {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(17 16 26 / 0.82) 0,
+    rgb(17 16 26 / 0.82) 5px,
+    rgb(32 24 43 / 0.76) 5px,
+    rgb(32 24 43 / 0.76) 10px
+  ) !important;
+  color: #756983 !important;
+}
+
+.dark .border,
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-border {
+  border-color: var(--forge-dark-border) !important;
+}
+
+.dark .border-sky-100,
+.dark .border-sky-200 {
+  border-color: rgb(96 165 250 / 0.32) !important;
+}
+
+.dark .border-emerald-100,
+.dark .border-emerald-200 {
+  border-color: rgb(94 224 173 / 0.32) !important;
+}
+
+.dark .border-violet-100,
+.dark .border-violet-200 {
+  border-color: rgb(168 85 247 / 0.36) !important;
+}
+
+.dark .border-rose-100,
+.dark .border-rose-200,
+.dark .border-red-200 {
+  border-color: rgb(255 122 151 / 0.34) !important;
+}
+
+.dark .border-amber-200,
+.dark .border-orange-200 {
+  border-color: rgb(246 199 106 / 0.34) !important;
+}
+
+.dark .text-foreground,
+.dark .text-slate-950,
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .text-slate-700 {
+  color: var(--forge-dark-text) !important;
+}
+
+.dark .text-muted-foreground,
+.dark .text-slate-600,
+.dark .text-slate-500 {
+  color: var(--forge-dark-muted) !important;
+}
+
+.dark .text-slate-400 {
+  color: var(--forge-dark-subtle) !important;
+}
+
+.dark .text-sky-600,
+.dark .text-sky-700,
+.dark .text-sky-800,
+.dark .text-sky-900 {
+  color: #8ac7ff !important;
+}
+
+.dark .text-emerald-600,
+.dark .text-emerald-700,
+.dark .text-emerald-800,
+.dark .text-emerald-950,
+.dark .text-green-700 {
+  color: var(--forge-dark-green) !important;
+}
+
+.dark .text-violet-700,
+.dark .text-violet-800,
+.dark .text-purple-700 {
+  color: #d9b4ff !important;
+}
+
+.dark .text-rose-700,
+.dark .text-red-700,
+.dark .text-red-800,
+.dark .text-red-950 {
+  color: var(--forge-dark-rose) !important;
+}
+
+.dark .text-amber-700,
+.dark .text-orange-700,
+.dark .text-orange-800 {
+  color: var(--forge-dark-amber) !important;
+}
+
+.dark .bg-red-200\/80.text-red-950,
+.dark .bg-red-200\/80 .text-red-950 {
+  color: #45121f !important;
+}
+
+.dark .bg-emerald-200\/80.text-emerald-950,
+.dark .bg-emerald-200\/80 .text-emerald-950 {
+  color: #073a2a !important;
+}
+
+.dark .bg-white button,
+.dark button.bg-white,
+.dark a.bg-white {
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.04),
+    0 1px 0 rgb(255 255 255 / 0.04);
+}
+
+.dark .bg-white button:hover,
+.dark button.bg-white:hover,
+.dark a.bg-white:hover {
+  background-color: #241b30 !important;
+}
+
+.dark .fill-white {
+  fill: var(--forge-dark-panel-2) !important;
+}
+
+.dark .shadow-slate-950\/\[0\.03\],
+.dark .shadow-slate-950\/10,
+.dark .shadow-slate-950\/12,
+.dark .shadow-slate-950\/25 {
+  --tw-shadow-color: rgb(0 0 0 / 0.45) !important;
+  --tw-shadow: var(--tw-shadow-colored) !important;
+}
+
+.dark .ring-sky-100 {
+  --tw-ring-color: rgb(96 165 250 / 0.32) !important;
+}
+
+.dark .ring-emerald-100 {
+  --tw-ring-color: rgb(94 224 173 / 0.32) !important;
+}
+
+.dark .ring-slate-100,
+.dark .ring-slate-200 {
+  --tw-ring-color: var(--forge-dark-border) !important;
+}
+
+.dark .focus\:border-sky-300:focus {
+  border-color: rgb(255 79 216 / 0.5) !important;
+}
+
+.dark .focus\:ring-sky-100:focus,
+.dark .focus\:ring-4:focus {
+  --tw-ring-color: rgb(255 79 216 / 0.18) !important;
+}
+
+.dark .placeholder\:text-slate-400::placeholder {
+  color: #756983 !important;
+}
+
+.dark .selection\:bg-sky-200\/80::selection,
+.dark .selection\:bg-sky-200\/70::selection {
+  background-color: rgb(255 79 216 / 0.32) !important;
+}
+
+.dark .selection\:text-slate-950::selection {
+  color: var(--forge-dark-text) !important;
+}
+
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-100:hover,
+.dark .hover\:bg-sky-50:hover,
+.dark .hover\:bg-white:hover {
+  background-color: var(--forge-dark-panel-3) !important;
+}
+
+.dark .hover\:text-slate-950:hover,
+.dark .hover\:text-foreground:hover {
+  color: var(--forge-dark-text) !important;
+}
+
+.dark .hover\:text-sky-700:hover {
+  color: #ff8ae8 !important;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  color-scheme: dark;
+}
+
+.dark textarea,
+.dark input {
+  caret-color: var(--forge-dark-text);
+}
+
+.dark .markdown-menu-item {
+  color: var(--forge-dark-muted);
+}
+
+.dark .markdown-menu-item[data-highlighted] {
+  background: var(--forge-dark-panel-3);
+  color: var(--forge-dark-text);
+}
+
+.dark .forge-markdown {
+  color: #ded6e9;
+}
+
+.dark .forge-markdown h1,
+.dark .forge-markdown h2,
+.dark .forge-markdown h3,
+.dark .forge-markdown h4,
+.dark .forge-markdown h5,
+.dark .forge-markdown h6 {
+  color: var(--forge-dark-text);
+}
+
+.dark .forge-markdown a {
+  color: #8ac7ff;
+}
+
+.dark .forge-markdown blockquote,
+.dark .forge-markdown code,
+.dark .forge-markdown pre,
+.dark .forge-markdown .mermaid,
+.dark .forge-markdown th {
+  background: var(--forge-dark-panel-2);
+  border-color: var(--forge-dark-border);
+  color: #ded6e9;
+}
+
+.dark .forge-markdown td,
+.dark .forge-markdown th {
+  border-color: var(--forge-dark-border);
+}
+
+.dark .forge-markdown pre code {
+  color: #ded6e9;
+}
+
+.dark .forge-markdown hr,
+.dark .docs-markdown h2 {
+  border-color: var(--forge-dark-border);
+}
