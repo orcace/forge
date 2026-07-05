@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "preview": "pnpm run build && wrangler dev",
     "lint": "eslint .",
     "typecheck": "tsc -b --pretty",
     "test": "vitest run",
@@ -39,7 +39,8 @@
     "format:check": "prettier --check .",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
     "create:tool": "tsx scripts/create-tool.ts",
-    "check:tools": "tsx scripts/check-tools.ts"
+    "check:tools": "tsx scripts/check-tools.ts",
+    "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
@@ -70,6 +71,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.43.0",
     "@eslint/js": "^9.17.0",
     "@tailwindcss/vite": "^4.0.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -89,6 +91,7 @@
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "wrangler": "^4.107.0"
   }
 }

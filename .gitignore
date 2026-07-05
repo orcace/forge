@@ -176,3 +176,8 @@ Dockerfile.local
 
 temp/
 ref/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
