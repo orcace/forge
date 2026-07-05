@@ -1,0 +1,25 @@
+{
+  "name": "Forge",
+  "short_name": "Forge",
+  "description": "A local-first developer workstation for everyday developer tools.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#09070f",
+  "theme_color": "#09070f",
+  "icons": [
+    {
+      "src": "/forge-black.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/forge-white.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "monochrome"
+    }
+  ],
+  "categories": ["developer", "productivity", "utilities"]
+}
