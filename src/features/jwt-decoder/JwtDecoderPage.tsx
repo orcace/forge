@@ -1,5 +1,5 @@
 import type { JSX, ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   Check,
@@ -362,21 +362,147 @@ function TokenInput({
   onChange: (value: string) => void;
   value: string;
 }): JSX.Element {
+  const highlightRef = useRef<HTMLPreElement | null>(null);
+  const [header = "", payload = "", signature = ""] = value.split(".");
+
   return (
-    <label className="block min-h-0 flex-1 bg-white">
-      <span className="sr-only">JWT input</span>
-      <textarea
-        className={cn(
-          "scrollbar-forge h-full min-h-0 w-full resize-none border-0 bg-white p-4 font-mono text-[13px] leading-6 text-slate-950 outline-none placeholder:text-slate-400 selection:bg-sky-200/80 selection:text-slate-950",
-          lineWrap ? "overflow-auto break-all" : "overflow-auto whitespace-pre",
-        )}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder="Paste a JWT..."
-        spellCheck={false}
-        value={value}
-        wrap={lineWrap ? "soft" : "off"}
+    <div className="flex min-h-0 flex-1 flex-col bg-white">
+      <TokenSegmentPreview
+        header={header}
+        payload={payload}
+        signature={signature}
+        visible={Boolean(value)}
       />
-    </label>
+      <label className="relative block min-h-0 flex-1 bg-white">
+        <span className="sr-only">JWT input</span>
+        {value ? (
+          <pre
+            aria-hidden="true"
+            className={cn(
+              "pointer-events-none absolute inset-0 m-0 overflow-hidden border-0 bg-white p-4 font-mono text-[13px] leading-6",
+              lineWrap ? "whitespace-pre-wrap break-all" : "whitespace-pre",
+            )}
+            ref={highlightRef}
+          >
+            {highlightEncodedToken(value)}
+          </pre>
+        ) : null}
+        <textarea
+          className={cn(
+            "scrollbar-forge relative h-full min-h-0 w-full resize-none border-0 bg-transparent p-4 font-mono text-[13px] leading-6 outline-none placeholder:text-slate-400",
+            value
+              ? "text-transparent caret-slate-950 selection:bg-sky-200/70 selection:text-transparent"
+              : "text-slate-950 selection:bg-sky-200/80 selection:text-slate-950",
+            lineWrap ? "overflow-auto break-all" : "overflow-auto whitespace-pre",
+          )}
+          onChange={(event) => onChange(event.target.value)}
+          onScroll={(event) => {
+            if (highlightRef.current) {
+              highlightRef.current.scrollTop = event.currentTarget.scrollTop;
+              highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
+            }
+          }}
+          placeholder="Paste a JWT..."
+          spellCheck={false}
+          value={value}
+          wrap={lineWrap ? "soft" : "off"}
+        />
+      </label>
+    </div>
+  );
+}
+
+function highlightEncodedToken(value: string): JSX.Element[] {
+  const parts = value.split(".");
+
+  return parts.flatMap((part, index) => {
+    const className =
+      index === 0 ? "text-sky-700" : index === 1 ? "text-emerald-700" : "text-violet-700";
+    const segment = (
+      <span className={className} key={`segment-${index}`}>
+        {part}
+      </span>
+    );
+
+    if (index === parts.length - 1) {
+      return [segment];
+    }
+
+    return [
+      segment,
+      <span className="text-slate-400" key={`dot-${index}`}>
+        .
+      </span>,
+    ];
+  });
+}
+
+function TokenSegmentPreview({
+  header,
+  payload,
+  signature,
+  visible,
+}: {
+  header: string;
+  payload: string;
+  signature: string;
+  visible: boolean;
+}): JSX.Element | null {
+  if (!visible) {
+    return null;
+  }
+
+  return (
+    <div className="border-b border-slate-200 bg-slate-50/70 px-3 py-3">
+      <div className="grid gap-2 xl:grid-cols-3">
+        <TokenSegment label="Header" tone="sky" value={header || "Missing header"} />
+        <TokenSegment
+          label="Payload"
+          tone="emerald"
+          value={payload || "Missing payload"}
+        />
+        <TokenSegment
+          label="Signature"
+          tone="violet"
+          value={signature || "Missing signature"}
+        />
+      </div>
+    </div>
+  );
+}
+
+function TokenSegment({
+  label,
+  tone,
+  value,
+}: {
+  label: string;
+  tone: "emerald" | "sky" | "violet";
+  value: string;
+}): JSX.Element {
+  const toneClass = {
+    emerald: "border-emerald-200 bg-emerald-50 text-emerald-900",
+    sky: "border-sky-200 bg-sky-50 text-sky-900",
+    violet: "border-violet-200 bg-violet-50 text-violet-900",
+  }[tone];
+  const badgeClass = {
+    emerald: "bg-emerald-100 text-emerald-700",
+    sky: "bg-sky-100 text-sky-700",
+    violet: "bg-violet-100 text-violet-700",
+  }[tone];
+
+  return (
+    <div className={cn("min-w-0 rounded-md border px-3 py-2", toneClass)}>
+      <div
+        className={cn(
+          "mb-1 inline-flex rounded px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em]",
+          badgeClass,
+        )}
+      >
+        {label}
+      </div>
+      <div className="truncate font-mono text-[12px] leading-5">{value}</div>
+    </div>
   );
 }
 
@@ -427,8 +553,8 @@ function DecodedPanel({
   decoded: DecodedJwt;
   lineWrap: boolean;
 }): JSX.Element {
-  const [headerView, setHeaderView] = useState<DecodedSectionView>("breakdown");
-  const [payloadView, setPayloadView] = useState<DecodedSectionView>("breakdown");
+  const [headerView, setHeaderView] = useState<DecodedSectionView>("json");
+  const [payloadView, setPayloadView] = useState<DecodedSectionView>("json");
   const headerRows = useMemo(
     () => getJwtBreakdownRows(decoded.headerJson, "header"),
     [decoded.headerJson],
