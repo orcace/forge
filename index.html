@@ -12,6 +12,50 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="robots" content="index,follow" />
+    <script>
+      (() => {
+        const storageKey = "forge.theme";
+        const validModes = new Set(["light", "dark", "system"]);
+
+        function getSystemTheme() {
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+
+        let mode = "light";
+
+        try {
+          const storedMode = window.localStorage.getItem(storageKey);
+
+          if (storedMode) {
+            const parsedMode = JSON.parse(storedMode);
+
+            if (validModes.has(parsedMode)) {
+              mode = parsedMode;
+            }
+          }
+        } catch {
+          mode = "light";
+        }
+
+        const resolvedMode = mode === "system" ? getSystemTheme() : mode;
+        const isDark = resolvedMode === "dark";
+        const themeColor = isDark ? "#09070f" : "#ffffff";
+        const root = document.documentElement;
+
+        root.classList.toggle("dark", isDark);
+        root.dataset.theme = mode;
+        root.style.colorScheme = resolvedMode;
+        root.style.backgroundColor = themeColor;
+
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+        if (themeColorMeta) {
+          themeColorMeta.setAttribute("content", themeColor);
+        }
+      })();
+    </script>
     <link rel="canonical" href="https://forge.cuthanhcam.workers.dev/" />
     <meta property="og:title" content="Forge - Developer Workstation" />
     <meta
