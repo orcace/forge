@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { toolCategoryDefinitions } from "@/core/registry/tool.categories";
 import { getToolsByCategory } from "@/core/registry/tool.registry";
+import { useThemeStore } from "@/core/theme/theme.store";
+import type { ThemeMode } from "@/core/theme/theme.types";
 import { useWorkspaceStore } from "@/core/workspace/workspace.store";
 import { cn } from "@/shared/lib/cn";
 import { SidebarGroup } from "./SidebarGroup";
@@ -36,10 +38,34 @@ export function Sidebar({
   const [helpOpen, setHelpOpen] = useState(false);
   const helpRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const themeMode = useThemeStore((state) => state.mode);
   const sidebarCollapsed = useWorkspaceStore((state) => state.sidebarCollapsed);
   const toggleSidebar = useWorkspaceStore((state) => state.toggleSidebar);
   const ToggleIcon = sidebarCollapsed ? PanelLeftOpen : PanelLeftClose;
   const effectiveCollapsed = sidebarCollapsed && !mobileOpen;
+  const [systemTheme, setSystemTheme] = useState<Exclude<ThemeMode, "system">>(
+    "light",
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function updateSystemTheme(): void {
+      setSystemTheme(mediaQuery.matches ? "dark" : "light");
+    }
+
+    updateSystemTheme();
+    mediaQuery.addEventListener("change", updateSystemTheme);
+
+    return () => mediaQuery.removeEventListener("change", updateSystemTheme);
+  }, []);
+
+  const isDarkTheme =
+    themeMode === "dark" || (themeMode === "system" && systemTheme === "dark");
 
   useEffect(() => {
     onMobileOpenChange(false);
@@ -107,21 +133,27 @@ export function Sidebar({
         >
           <Link
             aria-label="Go to home"
-            className="group flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-slate-950 ring-1 ring-slate-900/10 transition hover:bg-slate-800 dark:bg-white/10 dark:ring-white/10 dark:hover:bg-white/15 dark:hover:ring-white/20"
+            className="group flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition hover:bg-slate-100 dark:hover:bg-white/10"
             to="/"
           >
             <img
               alt=""
-              className="h-5.5 w-5.5 object-contain opacity-95 drop-shadow-[0_1px_10px_rgba(255,255,255,0.1)] transition group-hover:opacity-100"
-              src="/forge-white.svg"
+              className="h-5.5 w-5.5 object-contain opacity-95 transition group-hover:opacity-100"
+              src={isDarkTheme ? "/forge-white.svg" : "/forge-black.svg"}
             />
           </Link>
-          <div className={cn(effectiveCollapsed && "sr-only")}>
+          <Link
+            className={cn(
+              "min-w-0 transition hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400",
+              effectiveCollapsed && "sr-only",
+            )}
+            to="/"
+          >
             <p className="text-[14px] font-bold leading-5 text-slate-950">Forge</p>
             <p className="text-[11px] font-medium text-slate-500">
               Developer Workstation
             </p>
-          </div>
+          </Link>
         </div>
 
         <nav
