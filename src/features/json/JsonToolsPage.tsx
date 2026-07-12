@@ -528,7 +528,7 @@ function JsonCodeEditor({
         <span className="sr-only">{label}</span>
         <textarea
           className={cn(
-            "scrollbar-forge relative h-full min-h-0 w-full resize-none border-0 bg-transparent py-0 pl-[5rem] pr-4 font-mono text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400 selection:bg-sky-200/80 selection:text-slate-950",
+            "scrollbar-forge relative h-full min-h-0 w-full resize-none border-0 bg-transparent py-0 pl-[5rem] pr-4 font-mono text-[13px] leading-6 text-transparent caret-slate-950 outline-none placeholder:text-slate-400 selection:bg-sky-200/70 selection:text-transparent",
             lineWrap ? "overflow-auto" : "overflow-auto whitespace-pre",
           )}
           onChange={handleChange}
