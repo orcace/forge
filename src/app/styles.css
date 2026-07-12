@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   color-scheme: light;
@@ -708,7 +709,7 @@ body {
 .dark .hover\:bg-slate-100:hover,
 .dark .hover\:bg-sky-50:hover,
 .dark .hover\:bg-white:hover {
-  background-color: var(--forge-dark-panel-3) !important;
+  background-color: var(--forge-dark-panel-3);
 }
 
 .dark .hover\:text-slate-950:hover,
