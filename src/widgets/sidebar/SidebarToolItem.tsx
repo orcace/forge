@@ -18,7 +18,7 @@ export function SidebarToolItem({
     <NavLink
       className={({ isActive }) =>
         cn("group flex items-center text-[13px] font-medium transition", {
-          "h-8 justify-center text-slate-400 hover:text-slate-950 focus-visible:outline-none":
+          "h-8 justify-center text-slate-500 hover:text-slate-950 focus-visible:outline-none":
             collapsed && !isActive,
           "h-8 justify-center text-slate-700 hover:text-slate-950 focus-visible:outline-none":
             collapsed && isActive,
